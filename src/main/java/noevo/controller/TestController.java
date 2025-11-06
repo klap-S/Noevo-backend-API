@@ -11,7 +11,9 @@ public class TestController {
         return "Funciona correctamente el backend";
     }
 
-
-    
+    @GetMapping("/administrador")
+    public String administrador() {
+        return "Hola, estas en el administrador";
+    }
 
 }
