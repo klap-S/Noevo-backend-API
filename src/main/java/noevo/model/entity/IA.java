@@ -1,4 +1,4 @@
-package noevo.model;
+package noevo.model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class IA {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre = "Carla";
 
     @Column(nullable = false)

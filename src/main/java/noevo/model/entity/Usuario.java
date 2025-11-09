@@ -1,9 +1,12 @@
-package noevo.model;
+package noevo.model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,6 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
+import noevo.enums.RolUsuario;
+import jakarta.persistence.EnumType;
 
 @Data
 @NoArgsConstructor
@@ -30,13 +35,26 @@ public class Usuario {
     private Long id;
 
     @Column(nullable = false)
-    private String nombre = "invitado";
+    private String nombre = "Usuario invitado";
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(name = "fecha_registro", nullable = false)
-    private LocalDateTime fechaRegistro = LocalDateTime.now();
+    private LocalDateTime fechaRegistro = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
     @Column(name = "ultimo_acceso", nullable = true)
     private LocalDateTime ultimoAcceso;
+
+    @Column(nullable = false)
+    private String idioma = "Español";
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RolUsuario rol;
 
     // Union con tabla mensaje y conversacion
     // cascade = CascadeType.ALL: hace que al guardar/eliminar un usuario también se

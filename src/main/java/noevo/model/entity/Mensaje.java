@@ -1,6 +1,8 @@
-package noevo.model;
+package noevo.model.entity;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Column;
+import noevo.enums.*;
 
 @Data
 @NoArgsConstructor
@@ -27,27 +30,35 @@ public class Mensaje {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Integer orden;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private opcionesRemitente remitente;
+    private OpcionesRemitente emisor;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OpcionesRemitente remitente;
 
     // Texto en base de datos con Lob
     @Lob
     @Column(nullable = true)
     private String contenidoTexto;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String tipo;
+    private OpcionesTipoMensajes tipo;
 
     @Column(nullable = true)
     private String audioUrl;
 
     @Column(nullable = false)
-    private LocalDateTime fecha = LocalDateTime.now();
+    private LocalDateTime fecha = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);;
 
     // Union con tablas ususario, ia y conversacion
     @ManyToOne
-    @JoinColumn(name = "conversacion_Id")
+    @JoinColumn(name = "conversacion_id")
     private Conversacion conversacion;
 
     @ManyToOne
@@ -59,8 +70,4 @@ public class Mensaje {
     private IA ia;
     // Fin union tablas
 
-}
-
-enum opcionesRemitente {
-    USUARIO, IA
 }

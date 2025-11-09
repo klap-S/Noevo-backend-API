@@ -1,6 +1,7 @@
-package noevo.model;
+package noevo.model.entity;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Entity;
@@ -35,7 +36,7 @@ public class Conversacion {
     private String contexto;
 
     @Column(name = "fecha_inicio", nullable = false)
-    private LocalDateTime fechaInicio = LocalDateTime.now();
+    private LocalDateTime fechaInicio = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
     @Column(name = "fecha_fin", nullable = true)
     private LocalDateTime fechaFin;
