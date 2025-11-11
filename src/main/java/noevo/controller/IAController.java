@@ -21,74 +21,78 @@ import java.util.stream.Collectors;
 @RequestMapping("/ia")
 public class IAController {
 
-    @Autowired
-    private IAService iaService;
+        @Autowired
+        private IAService iaService;
 
-    // Obtener toda la ia
-    @GetMapping
-    public List<IAResponseDTO> getAll() {
-        return iaService.findAll()
-                .stream()
-                .map(ia -> IAResponseDTO.builder()
-                        .nombre(ia.getNombre())
-                        .modelo(ia.getModelo())
-                        .idioma(ia.getIdioma())
-                        .build())
-                .collect(Collectors.toList());
-    }
+        // Obtener toda la ia
+        @GetMapping
+        public List<IAResponseDTO> getAll() {
+                return iaService.findAll()
+                                .stream()
+                                .map(ia -> IAResponseDTO.builder()
+                                                .id(ia.getId())
+                                                .nombre(ia.getNombre())
+                                                .modelo(ia.getModelo())
+                                                .idioma(ia.getIdioma())
+                                                .build())
+                                .collect(Collectors.toList());
+        }
 
-    // Obtener ia Id
-    @GetMapping("/{id}")
-    public IAResponseDTO getById(@PathVariable Long id) {
-        return iaService.findById(id)
-                .map(ia -> IAResponseDTO.builder()
-                        .nombre(ia.getNombre())
-                        .modelo(ia.getModelo())
-                        .idioma(ia.getIdioma())
-                        .build())
-                .orElseThrow(() -> new RuntimeException("No encontrado"));
-    }
+        // Obtener ia Id
+        @GetMapping("/{id}")
+        public IAResponseDTO getById(@PathVariable Long id) {
+                return iaService.findById(id)
+                                .map(ia -> IAResponseDTO.builder()
+                                                .id(ia.getId())
+                                                .nombre(ia.getNombre())
+                                                .modelo(ia.getModelo())
+                                                .idioma(ia.getIdioma())
+                                                .build())
+                                .orElseThrow(() -> new RuntimeException("No encontrado"));
+        }
 
-    // Crear una IA
-    @PostMapping
-    public IAResponseDTO create(@RequestBody @Valid IARequestDTO request) {
-        IA ia = new IA();
-        ia.setNombre(request.getNombre());
-        ia.setModelo(request.getModelo());
-        ia.setIdioma(request.getIdioma());
+        // Crear una IA
+        @PostMapping("/create")
+        public IAResponseDTO create(@RequestBody @Valid IARequestDTO request) {
+                IA ia = new IA();
+                ia.setNombre(request.getNombre());
+                ia.setModelo(request.getModelo());
+                ia.setIdioma(request.getIdioma());
 
-        IA saved = iaService.save(ia);
+                IA saved = iaService.save(ia);
 
-        return IAResponseDTO.builder()
-                .nombre(saved.getNombre())
-                .modelo(saved.getModelo())
-                .idioma(saved.getIdioma())
-                .build();
-    }
+                return IAResponseDTO.builder()
+                                .id(ia.getId())
+                                .nombre(saved.getNombre())
+                                .modelo(saved.getModelo())
+                                .idioma(saved.getIdioma())
+                                .build();
+        }
 
-    // Actualizar ia
-    @PutMapping("/{id}")
-    public IAResponseDTO update(@PathVariable Long id, @RequestBody @Valid IARequestDTO request) {
-        IA ia = iaService.findById(id)
-                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
+        // Actualizar ia
+        @PutMapping("/update/{id}")
+        public IAResponseDTO update(@PathVariable Long id, @RequestBody @Valid IARequestDTO request) {
+                IA ia = iaService.findById(id)
+                                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
 
-        ia.setNombre(request.getNombre());
-        ia.setModelo(request.getModelo());
-        ia.setIdioma(request.getIdioma());
+                ia.setNombre(request.getNombre());
+                ia.setModelo(request.getModelo());
+                ia.setIdioma(request.getIdioma());
 
-        IA updated = iaService.save(ia);
+                IA updated = iaService.save(ia);
 
-        return IAResponseDTO.builder()
-                .nombre(updated.getNombre())
-                .modelo(updated.getModelo())
-                .idioma(updated.getIdioma())
-                .build();
-    }
+                return IAResponseDTO.builder()
+                                .id(updated.getId())
+                                .nombre(updated.getNombre())
+                                .modelo(updated.getModelo())
+                                .idioma(updated.getIdioma())
+                                .build();
+        }
 
-    // Eliminar ia
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        iaService.deleteById(id);
-    }
+        // Eliminar ia
+        @DeleteMapping("/delete/{id}")
+        public void delete(@PathVariable Long id) {
+                iaService.deleteById(id);
+        }
 
 }

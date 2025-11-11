@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class IAResponseDTO {
 
+    private Long id;
+
     private String nombre;
 
     private String modelo;

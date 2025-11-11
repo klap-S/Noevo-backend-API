@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import noevo.enums.RolUsuario;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +20,8 @@ public class UsuarioCreateResponseDTO {
     private String email;
 
     private String idioma;
+
+    private RolUsuario rol;
 
     private LocalDateTime fechaRegistro;
 }
