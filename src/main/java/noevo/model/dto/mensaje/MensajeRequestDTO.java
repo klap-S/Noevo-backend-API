@@ -12,12 +12,4 @@ public class MensajeRequestDTO {
     @NotBlank(message = "Ingrese el texto")
     private String contenidoTexto;
 
-    @NotNull(message = "Conversacion el id")
-    private Long conversacionId;
-
-    @NotNull(message = "Quien lo envia")
-    private OpcionesRemitente emisor;
-
-    private OpcionesTipoMensajes tipo;
-
 }

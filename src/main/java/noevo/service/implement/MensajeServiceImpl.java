@@ -11,6 +11,7 @@ import noevo.service.interfaces.MensajesService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import noevo.enums.*;
+import java.util.Optional;
 
 @Service
 public class MensajeServiceImpl implements MensajesService {
@@ -51,6 +52,16 @@ public class MensajeServiceImpl implements MensajesService {
         mensaje.setTipo(tipo);
         mensaje.setOrden(conversacion.getMensajes().size() + 1);
 
+        return mensajeRepository.save(mensaje);
+    }
+
+    @Override
+    public Optional<Mensaje> findById(Long id) {
+        return mensajeRepository.findById(id);
+    }
+
+    @Override
+    public Mensaje save(Mensaje mensaje) {
         return mensajeRepository.save(mensaje);
     }
 
