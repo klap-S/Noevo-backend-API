@@ -1,5 +1,6 @@
 package noevo.model.dto.ia;
 
+//Lombok imports
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +14,10 @@ public class IAResponseDTO {
 
     private Long id;
 
-    private String nombre;
+    private String name;
 
-    private String modelo;
+    private String model;
 
-    private String idioma;
+    private String language;
 
 }

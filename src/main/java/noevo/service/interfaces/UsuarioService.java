@@ -1,7 +1,15 @@
 package noevo.service.interfaces;
 
+//Java imports
 import java.util.List;
 import java.util.Optional;
+
+//Noevo imports
+import noevo.model.dto.usuario.UsuarioResponseDTO;
+import noevo.model.dto.usuario.UsuarioUpdateRequestDTO;
+import noevo.model.dto.usuario.UsuarioUpdateResponseDTO;
+import noevo.model.dto.usuario.UsuarioCreateRequestDTO;
+import noevo.model.dto.usuario.UsuarioCreateResponseDTO;
 import noevo.model.entity.Usuario;
 
 public interface UsuarioService {
@@ -11,17 +19,36 @@ public interface UsuarioService {
 
     Optional<Usuario> findById(Long id);
 
-    Usuario save(Usuario usuario);
+    Usuario saved(Usuario usuario);
 
     void deleteById(Long id);
 
     // Personalizado
-    Optional<Usuario> findByNombre(String nombre);
+    // Devuelve DTO Response
+    List<UsuarioResponseDTO> findAllResponse();
 
+    // Devuelve DTO Response
+    Optional<UsuarioResponseDTO> findByIdResponse(Long id);
+
+    // Buscar usuario por el nombre
+    Optional<Usuario> findByUserName(String userName);
+
+    // Buscar email
     Optional<Usuario> findByEmail(String email);
 
-    boolean existsByNombre(String nombre);
+    // Verificar si existe el nombre del usuario
+    boolean existsByUserName(String userName);
 
+    // Verificar si existe el email del usuario
     boolean existsByEmail(String email);
+
+    // Crear usuario
+    UsuarioCreateResponseDTO createUser(UsuarioCreateRequestDTO createUserRequestDTO);
+
+    // Crear usuario invitado
+    UsuarioResponseDTO createUserInvitado();
+
+    // Actualizar usuario
+    UsuarioUpdateResponseDTO updateUser(Long id, UsuarioUpdateRequestDTO updateRequestDTO);
 
 }

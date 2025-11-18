@@ -1,14 +1,16 @@
 package noevo.model.dto.usuario;
 
+//Java imports
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+//Lombok imports
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import noevo.enums.RolUsuario;
 import lombok.Builder;
+
+//Noevo imports
+import noevo.enums.RolUsuario;
 
 @Data
 @NoArgsConstructor
@@ -18,15 +20,20 @@ public class UsuarioResponseDTO {
 
     private Long id;
 
-    private String nombre;
+    private String name;
+
+    private String lastNames;
+
+    private String userName;
 
     private String email;
 
-    private String idioma;
+    private LocalDateTime registrationDate;
+
+    private LocalDateTime lastAccess;
+
+    private String language;
 
     private RolUsuario rol;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime fechaRegistro;
 
 }

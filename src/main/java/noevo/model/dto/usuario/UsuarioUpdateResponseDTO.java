@@ -1,9 +1,6 @@
 package noevo.model.dto.usuario;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+//Lombok imports
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +12,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UsuarioUpdateResponseDTO {
 
-    private String nombre;
+    private Long id;
+
+    private String name;
+
+    private String lastNames;
+
+    private String userName;
 
     private String email;
 
-    private String idioma;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime fechaRegistro;
+    private String language;
 }

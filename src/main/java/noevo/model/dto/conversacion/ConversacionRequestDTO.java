@@ -1,21 +1,18 @@
 package noevo.model.dto.conversacion;
 
+//Java imports
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
+//Lombok imports
 import lombok.Data;
 
 @Data
 public class ConversacionRequestDTO {
 
     @NotBlank(message = "El título")
-    private String titulo;
+    private String title;
 
-    private String contexto;
-
-    @NotNull(message = "Ia")
-    private Long iaId;
-
-    @NotNull(message = "Usuario ")
-    private Long usuarioId;
+    @NotBlank(message = "Resumen breve")
+    private String context;
 
 }

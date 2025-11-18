@@ -1,11 +1,12 @@
 package noevo.model.dto.usuario;
 
+//Lombok imports
 import lombok.Data;
 
 @Data
 public class PasswordResetDTO {
 
-    private String password;
+    private String oldPassword;
 
-    private String confirmPassword;
+    private String newPassword;
 }

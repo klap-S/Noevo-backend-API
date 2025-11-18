@@ -1,8 +1,10 @@
 package noevo.model.entity;
 
+//Java imports
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+//Jakarta imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,12 +15,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+
+//Lombok imports
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Column;
+
+//Noevo imports
 import noevo.enums.*;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,44 +38,37 @@ public class Mensaje {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer orden;
+    @Column(name = "orden", nullable = false)
+    private Integer order;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private OpcionesRemitente emisor;
+    @Column(name = "emisor", nullable = false)
+    private OpcionesRemitente speaker;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private OpcionesRemitente remitente;
+    @Column(name = "remitente", nullable = false)
+    private OpcionesRemitente sender;
 
     // Texto en base de datos con Lob
     @Lob
-    @Column(nullable = true)
-    private String contenidoTexto;
+    @Column(name = "contenido_texto", nullable = true)
+    private String contentText;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private OpcionesTipoMensajes tipo;
+    @Column(name = "tipo", nullable = false)
+    private OpcionesTipoMensajes type;
 
-    @Column(nullable = true)
+    @Column(name = "audio_url", nullable = true)
     private String audioUrl;
 
-    @Column(nullable = false)
-    private LocalDateTime fecha = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);;
+    @Column(name = "fecha_envio")
+    private LocalDateTime shippingDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
-    // Union con tablas ususario, ia y conversacion
+    // Union con tablas conversacion
     @ManyToOne
     @JoinColumn(name = "conversacion_id")
     private Conversacion conversacion;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = true)
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "ia_id", nullable = true)
-    private IA ia;
     // Fin union tablas
 
 }

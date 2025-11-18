@@ -1,118 +1,72 @@
 package noevo.controller;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+//Java imports
 import java.util.List;
-import java.util.stream.Collectors;
+
+//Org imports
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.validation.Valid;
-import noevo.model.entity.Conversacion;
-import noevo.model.entity.IA;
-import noevo.model.entity.Mensaje;
-import noevo.model.entity.Usuario;
-import noevo.repository.ConversacionRepository;
-import noevo.repository.IARepository;
-import noevo.repository.UsuarioRepository;
-import noevo.service.interfaces.MensajesService;
-import noevo.enums.*;
+
+//Noevo imports
+import noevo.service.implement.MensajeServiceImpl;
+import noevo.enums.OpcionesTipoMensajes;
 import noevo.model.dto.mensaje.MensajeRequestDTO;
 import noevo.model.dto.mensaje.MensajeResponseDTO;
-import noevo.repository.MensajeRepository;
-import java.util.Optional;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/mensajes")
+@RequestMapping("/api/mensaje")
 public class MensajeController {
 
-        @Autowired
-        private MensajesService mensajesService;
+    @Autowired
+    private MensajeServiceImpl mensajeServiceImpl;
 
-        @Autowired
-        private MensajeRepository mensajeRepository;
-        @Autowired
-        private ConversacionRepository conversacionRepository;
-        @Autowired
-        private UsuarioRepository usuarioRepository;
-        @Autowired
-        private IARepository iaRepository;
+    // Mostrar mensaje
+    @GetMapping("/mostrarMensajes/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}")
+    public List<MensajeResponseDTO> showMessages(
+            @PathVariable Long usuarioId,
+            @PathVariable Long iaId,
+            @PathVariable Long conversacionId) {
 
-        // Crear mensaje Usuario
-        @PostMapping("/enviarMensajeUsuario")
-        public MensajeResponseDTO enviarMensaje(@RequestParam Long usuarioId, @RequestParam Long iaId,
-                        OpcionesTipoMensajes tipoMensaje, @RequestBody MensajeRequestDTO enviarMensajeDTO) {
+        return mensajeServiceImpl.showMessageConversation(conversacionId, usuarioId, iaId);
+    }
 
-                Usuario usuario = usuarioRepository.findById(usuarioId)
-                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-                IA ia = iaRepository.findById(iaId)
-                                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
+    // Crear mensaje
+    @PostMapping("/createMessage/usuario/{usuarioId}/ia/{iaId}")
+    public MensajeResponseDTO createMessage(
+            @PathVariable Long usuarioId,
+            @PathVariable Long iaId,
+            @RequestParam(value = "conversacionId", required = false) Long conversacionId,
+            @RequestBody MensajeRequestDTO messageRequestDTO) {
 
-                Optional<Conversacion> conversacionOptional = conversacionRepository
-                                .findFirstMessageByUsuarioAndIa(usuarioId, iaId);
+        return mensajeServiceImpl.createMessage(
+                usuarioId,
+                iaId,
+                conversacionId,
+                OpcionesTipoMensajes.TEXTO,
+                messageRequestDTO);
+    }
 
-                Conversacion conversacion;
+    // Editar mensaje existente
+    @PutMapping("/editMessage/{usuarioId}/{iaId}/conversacion/{conversacionId}/mensaje/{mensajeId}")
+    public MensajeResponseDTO editMessage(
+            @PathVariable Long usuarioId,
+            @PathVariable Long iaId,
+            @PathVariable Long conversacionId,
+            @PathVariable Long mensajeId,
+            @RequestBody MensajeRequestDTO editRequest) {
 
-                if (conversacionOptional.isPresent()) {
-                        conversacion = conversacionOptional.get();
-                } else {
-                        conversacion = new Conversacion();
-                        conversacion.setUsuario(usuario);
-                        conversacion.setIa(ia);
-                        conversacion.setTitulo("Conversacion_" + (int) (Math.random() * 10000));
-                        conversacion.setContexto("Contexto_" + (int) (Math.random() * 10000));
-                        conversacion.setFechaInicio(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-                        conversacion = conversacionRepository.save(conversacion);
-                }
-
-                Mensaje mensaje = new Mensaje();
-                mensaje.setConversacion(conversacion);
-                mensaje.setUsuario(usuario);
-                mensaje.setIa(ia);
-                mensaje.setEmisor(OpcionesRemitente.USUARIO);
-                mensaje.setRemitente(OpcionesRemitente.IA);
-                mensaje.setTipo(tipoMensaje);
-                mensaje.setContenidoTexto(enviarMensajeDTO.getContenidoTexto());
-                mensaje.setFecha(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-                mensaje.setOrden(conversacion.getMensajes().size() + 1);
-
-                mensajeRepository.save(mensaje);
-                return MensajeResponseDTO.builder()
-                                .contenidoTexto(mensaje.getContenidoTexto())
-                                .build();
-        }
-
-        // Crear mensaje IA
-        @PostMapping("/enviarMensajeIA")
-        public MensajeResponseDTO enviarMensaje() {
-                return null;
-        }
-
-        // Editar mensaje solo el Usuario
-        @PutMapping("/editarMensaje/{mensajeId}")
-        public MensajeResponseDTO editarMensaje(@PathVariable Long mensajeId,
-                        @RequestBody MensajeRequestDTO mensajeEditDTO) {
-                Mensaje mensaje = mensajeRepository.findById(mensajeId)
-                                .orElseThrow(() -> new RuntimeException("Mensaje no encontrado"));
-
-                mensaje.setContenidoTexto(mensajeEditDTO.getContenidoTexto());
-                Mensaje save = mensajeRepository.save(mensaje);
-                return MensajeResponseDTO.builder()
-                                .contenidoTexto(save.getContenidoTexto())
-                                .build();
-        }
-
-        // Eliminar mensaje
-        @DeleteMapping("/{id}")
-        public void delete(@PathVariable Long id) {
-                mensajesService.deleteById(id);
-        }
-
+        return mensajeServiceImpl.editMessageConversation(
+                mensajeId,
+                conversacionId,
+                usuarioId,
+                iaId,
+                editRequest.getContentText());
+    }
 }

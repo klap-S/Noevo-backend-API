@@ -1,6 +1,12 @@
 package noevo.controller;
 
+//Java imports
 import java.util.List;
+
+//Jakerta imports
+import jakarta.validation.Valid;
+
+//Org imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,89 +16,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.validation.Valid;
-import noevo.model.entity.IA;
-import noevo.service.interfaces.IAService;
+
+//Noevo imports
+import noevo.service.implement.IAServiceImpl;
 import noevo.model.dto.ia.IARequestDTO;
 import noevo.model.dto.ia.IAResponseDTO;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
-@RequestMapping("/ia")
+@RequestMapping("/backend/api/ia")
 public class IAController {
 
         @Autowired
-        private IAService iaService;
+        private IAServiceImpl iaServiceImpl;
 
         // Obtener toda la ia
         @GetMapping
         public List<IAResponseDTO> getAll() {
-                return iaService.findAll()
-                                .stream()
-                                .map(ia -> IAResponseDTO.builder()
-                                                .id(ia.getId())
-                                                .nombre(ia.getNombre())
-                                                .modelo(ia.getModelo())
-                                                .idioma(ia.getIdioma())
-                                                .build())
-                                .collect(Collectors.toList());
+                return iaServiceImpl.findAllResponse();
         }
 
         // Obtener ia Id
         @GetMapping("/{id}")
         public IAResponseDTO getById(@PathVariable Long id) {
-                return iaService.findById(id)
-                                .map(ia -> IAResponseDTO.builder()
-                                                .id(ia.getId())
-                                                .nombre(ia.getNombre())
-                                                .modelo(ia.getModelo())
-                                                .idioma(ia.getIdioma())
-                                                .build())
-                                .orElseThrow(() -> new RuntimeException("No encontrado"));
+                return iaServiceImpl.findByIdResponse(id)
+                                .orElseThrow(() -> new RuntimeException("Ia no encontrada"));
         }
 
         // Crear una IA
-        @PostMapping("/create")
-        public IAResponseDTO create(@RequestBody @Valid IARequestDTO request) {
-                IA ia = new IA();
-                ia.setNombre(request.getNombre());
-                ia.setModelo(request.getModelo());
-                ia.setIdioma(request.getIdioma());
-
-                IA saved = iaService.save(ia);
-
-                return IAResponseDTO.builder()
-                                .id(ia.getId())
-                                .nombre(saved.getNombre())
-                                .modelo(saved.getModelo())
-                                .idioma(saved.getIdioma())
-                                .build();
+        @PostMapping("/createIA")
+        public IAResponseDTO create(@RequestBody @Valid IARequestDTO iaRequestDTO) {
+                return iaServiceImpl.createIA(iaRequestDTO);
         }
 
-        // Actualizar ia
-        @PutMapping("/update/{id}")
-        public IAResponseDTO update(@PathVariable Long id, @RequestBody @Valid IARequestDTO request) {
-                IA ia = iaService.findById(id)
-                                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
-
-                ia.setNombre(request.getNombre());
-                ia.setModelo(request.getModelo());
-                ia.setIdioma(request.getIdioma());
-
-                IA updated = iaService.save(ia);
-
-                return IAResponseDTO.builder()
-                                .id(updated.getId())
-                                .nombre(updated.getNombre())
-                                .modelo(updated.getModelo())
-                                .idioma(updated.getIdioma())
-                                .build();
+        // Actualizar IA
+        @PutMapping("/updateIA/{id}")
+        public IAResponseDTO updateIA(@PathVariable Long id, @RequestBody @Valid IARequestDTO iarequestDTO) {
+                return iaServiceImpl.updateIA(id, iarequestDTO);
         }
 
         // Eliminar ia
-        @DeleteMapping("/delete/{id}")
+        @DeleteMapping("/deleteIA/{id}")
         public void delete(@PathVariable Long id) {
-                iaService.deleteById(id);
+                iaServiceImpl.deleteById(id);
+        }
+
+        // Buscar por nombre
+        @GetMapping("/searchName/{name}")
+        public IAResponseDTO getByName(@PathVariable String name) {
+                return iaServiceImpl.findByNameResponse(name);
+        }
+
+        // Buscar por modelo
+        @GetMapping("/searchModel/{model}")
+        public IAResponseDTO getByModel(@PathVariable String model) {
+                return iaServiceImpl.findByModelResponse(model);
         }
 
 }

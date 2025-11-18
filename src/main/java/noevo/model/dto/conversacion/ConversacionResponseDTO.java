@@ -1,7 +1,9 @@
 package noevo.model.dto.conversacion;
 
+//Java imports
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
+//Lombok imports
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,15 +15,18 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ConversacionResponseDTO {
 
-    private String titulo;
+    private Long id;
 
-    private String contexto;
+    private String title;
+
+    private String context;
+
+    private LocalDateTime startDate;
 
     private Long iaId;
 
     private Long usuarioId;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime fechaInicio;
+    private LocalDateTime lastAccess;
 
 }
