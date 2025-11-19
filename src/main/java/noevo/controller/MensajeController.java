@@ -1,6 +1,9 @@
 package noevo.controller;
 
+//Java imports
 import java.util.List;
+
+//Org imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,52 +12,69 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import noevo.model.Mensaje;
-import noevo.service.interfaces.MensajesService;
+
+//Noevo imports
+import noevo.service.implement.MensajeServiceImpl;
+import noevo.enums.OpcionesTipoMensajes;
+import noevo.model.dto.mensaje.MensajeRequestDTO;
+import noevo.model.dto.mensaje.MensajeResponseDTO;
 
 @RestController
-@RequestMapping("/mensajes")
+@RequestMapping("/backend/api/mensaje")
 public class MensajeController {
 
     @Autowired
-    private MensajesService mensajesService;
+    private MensajeServiceImpl mensajeServiceImpl;
 
-    // Obtener todo el mensaje
-    @GetMapping
-    public List<Mensaje> getAll() {
-        return mensajesService.findAll();
+    // Mostrar mensaje
+    @GetMapping("/showMessage/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}")
+    public List<MensajeResponseDTO> showMessages(
+            @PathVariable Long usuarioId,
+            @PathVariable Long iaId,
+            @PathVariable Long conversacionId) {
+
+        return mensajeServiceImpl.showMessageConversation(conversacionId, usuarioId, iaId);
     }
 
-    // Obtener mensaje Id
-    @GetMapping("/{id}")
-    public Mensaje getById(@PathVariable Long id) {
-        return mensajesService.findById(id).orElse(null);
+    // Crear mensaje
+    @PostMapping("/createMessage/usuario/{usuarioId}/ia/{iaId}")
+    public MensajeResponseDTO createMessage(
+            @PathVariable Long usuarioId,
+            @PathVariable Long iaId,
+            @RequestParam(value = "conversacionId", required = false) Long conversacionId,
+            @RequestBody MensajeRequestDTO messageRequestDTO) {
+
+        return mensajeServiceImpl.createMessage(
+                usuarioId,
+                iaId,
+                conversacionId,
+                OpcionesTipoMensajes.TEXTO,
+                messageRequestDTO);
     }
 
-    // Crear una mensaje
-    @PostMapping
-    public Mensaje create(@RequestBody Mensaje mensaje) {
-        return mensajesService.save(mensaje);
-    }
+    // Editar mensaje existente
+    @PutMapping("/editMessage/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}/mensaje/{mensajeId}")
+    public MensajeResponseDTO editMessage(
+            @PathVariable Long usuarioId,
+            @PathVariable Long iaId,
+            @PathVariable Long conversacionId,
+            @PathVariable Long mensajeId,
+            @RequestBody MensajeRequestDTO editRequest) {
 
-    // Actualizar mensaje
-    @PutMapping("/{id}")
-    public Mensaje update(@PathVariable Long id, @RequestBody Mensaje mensaje) {
-        mensaje.setId(id);
-        return mensajesService.save(mensaje);
+        return mensajeServiceImpl.editMessageConversation(
+                mensajeId,
+                conversacionId,
+                usuarioId,
+                iaId,
+                editRequest.getContentText());
     }
 
     // Eliminar mensaje
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteMessage/{id}")
     public void delete(@PathVariable Long id) {
-        mensajesService.deleteById(id);
-    }
-
-    // Obtener mensajes de una conversacion
-    @GetMapping("/conversacion/{conversacionId}")
-    public List<Mensaje> getByConversacion(@PathVariable Long conversacionId) {
-        return mensajesService.findByConversacionId(conversacionId);
+        mensajeServiceImpl.deleteById(id);
     }
 
 }

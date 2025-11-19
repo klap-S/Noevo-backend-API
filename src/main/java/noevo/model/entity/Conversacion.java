@@ -1,8 +1,12 @@
-package noevo.model;
+package noevo.model.entity;
 
+//Java imports
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+
+//Jakarta imports
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,12 +15,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.CascadeType;
 
+//Lombok imports
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,17 +36,17 @@ public class Conversacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String titulo = "Nueva Conversacion";
+    @Column(name = "titulo", nullable = false)
+    private String title;
 
-    @Column(nullable = true)
-    private String contexto;
+    @Column(name = "contexto", nullable = true)
+    private String context;
 
     @Column(name = "fecha_inicio", nullable = false)
-    private LocalDateTime fechaInicio = LocalDateTime.now();
+    private LocalDateTime startDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
-    @Column(name = "fecha_fin", nullable = true)
-    private LocalDateTime fechaFin;
+    @Column(name = "ultimo_acceso", nullable = true)
+    private LocalDateTime lastAccess = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
     // Union con tabla mensaje, usuario e ia
     @OneToMany(mappedBy = "conversacion", cascade = CascadeType.ALL, orphanRemoval = true)
