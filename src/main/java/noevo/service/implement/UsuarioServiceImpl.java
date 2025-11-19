@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 //Noevo imports
 import noevo.service.interfaces.UsuarioService;
+import noevo.enums.OpcionesIdiomas;
 import noevo.enums.RolUsuario;
 import noevo.model.dto.usuario.UsuarioCreateRequestDTO;
 import noevo.model.dto.usuario.UsuarioCreateResponseDTO;
@@ -24,10 +25,10 @@ import noevo.repository.UsuarioRepository;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
-    // Basico
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    // Basico
     @Override
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
@@ -48,44 +49,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    // Personalizado
-    // Devuelve DTO response todos
-    @Override
-    public List<UsuarioResponseDTO> findAllResponse() {
-        List<Usuario> usuarios = findAll();
-
-        return usuarios.stream()
-                .map(user -> UsuarioResponseDTO.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .lastNames(user.getLastNames())
-                        .userName(user.getUserName())
-                        .email(user.getEmail())
-                        .registrationDate(user.getRegistrationDate())
-                        .lastAccess(user.getLastAccess())
-                        .language(user.getLanguage())
-                        .rol(user.getRol())
-                        .build())
-                .toList();
-    }
-
-    // Devuelve DTO response por id
-    @Override
-    public Optional<UsuarioResponseDTO> findByIdResponse(Long id) {
-        return findById(id)
-                .map(user -> UsuarioResponseDTO.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .lastNames(user.getLastNames())
-                        .userName(user.getUserName())
-                        .email(user.getEmail())
-                        .registrationDate(user.getRegistrationDate())
-                        .lastAccess(user.getLastAccess())
-                        .language(user.getLanguage())
-                        .rol(user.getRol())
-                        .build());
-    }
-
+    /*
+     * ====================================
+     * Personalizado Inicio
+     * ====================================
+     */
     // Buscar usuario por el nombre
     @Override
     public Optional<Usuario> findByUserName(String userName) {
@@ -110,6 +78,65 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.existsByEmail(email);
     }
 
+    /*
+     * ====================================
+     * Personalizado Fin
+     * ====================================
+     */
+
+    /*
+     * ====================================
+     * DTOs Inicio
+     * ====================================
+     */
+    // Devuelve DTO Response de todos los usuarios
+    @Override
+    public List<UsuarioResponseDTO> findAllResponse() {
+        List<Usuario> usuarios = findAll();
+
+        return usuarios.stream()
+                .map(user -> UsuarioResponseDTO.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .lastNames(user.getLastNames())
+                        .userName(user.getUserName())
+                        .email(user.getEmail())
+                        .registrationDate(user.getRegistrationDate())
+                        .lastAccess(user.getLastAccess())
+                        .language(user.getLanguage())
+                        .rol(user.getRol())
+                        .build())
+                .toList();
+    }
+
+    // Devuelve DTO Response de un usuario por id
+    @Override
+    public Optional<UsuarioResponseDTO> findByIdResponse(Long id) {
+        return findById(id)
+                .map(user -> UsuarioResponseDTO.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .lastNames(user.getLastNames())
+                        .userName(user.getUserName())
+                        .email(user.getEmail())
+                        .registrationDate(user.getRegistrationDate())
+                        .lastAccess(user.getLastAccess())
+                        .language(user.getLanguage())
+                        .rol(user.getRol())
+                        .build());
+    }
+
+    /*
+     * ====================================
+     * DTOs Fin
+     * ====================================
+     */
+
+    /*
+     * ====================================
+     * Desarrollo logica Inicio
+     * ====================================
+     */
     // Crear usuario
     @Override
     public UsuarioCreateResponseDTO createUser(UsuarioCreateRequestDTO createUserRequestDTO) {
@@ -156,10 +183,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = Usuario.builder()
                 .name("Invitado")
                 .lastNames("Temporal")
-                .userName("Noevo")
+                .userName("Invitado")
                 .email(emailAleatorio)
                 .password("")
-                .language("")
+                .language(OpcionesIdiomas.INGLES)
                 .rol(RolUsuario.INVITADO)
                 .registrationDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                 .build();
@@ -205,4 +232,9 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .build();
     }
 
+    /*
+     * ====================================
+     * Desarrollo logica Fin
+     * ====================================
+     */
 }

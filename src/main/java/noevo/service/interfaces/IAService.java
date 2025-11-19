@@ -20,19 +20,11 @@ public interface IAService {
 
     void deleteById(Long id);
 
-    // Personalizado
-    // Devuelve DTO Response
-    List<IAResponseDTO> findAllResponse();
-
-    // Devuelve DTO Response
-    Optional<IAResponseDTO> findByIdResponse(Long id);
-
-    // Devuelve DTO Response
-    IAResponseDTO findByNameResponse(String name);
-
-    // Devuelve DTO Response
-    IAResponseDTO findByModelResponse(String model);
-
+    /*
+     * ====================================
+     * Personalizado
+     * ====================================
+     */
     // Buscar IA por el nombre
     Optional<IA> findByName(String name);
 
@@ -42,6 +34,28 @@ public interface IAService {
     // Verificar si existe el nombre
     boolean existsByName(String name);
 
+    /*
+     * ====================================
+     * DTOs
+     * ====================================
+     */
+    // Devuelve DTO Response de todos las IA
+    List<IAResponseDTO> findAllResponse();
+
+    // Devuelve DTO Response de una IA por id
+    Optional<IAResponseDTO> findByIdResponse(Long id);
+
+    // Devuelve DTO Response del nombre IA
+    IAResponseDTO findByNameResponse(String name);
+
+    // Devuelve DTO Response del modelo IA
+    IAResponseDTO findByModelResponse(String model);
+
+    /*
+     * ====================================
+     * Desarrollo logica
+     * ====================================
+     */
     // Crear IA
     IAResponseDTO createIA(IARequestDTO iaRequestDTO);
 

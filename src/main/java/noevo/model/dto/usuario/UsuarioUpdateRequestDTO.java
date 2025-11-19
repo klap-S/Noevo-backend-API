@@ -3,9 +3,13 @@ package noevo.model.dto.usuario;
 //Jakarta imports
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 //Lombok imports
 import lombok.Data;
+
+//Noevo imports
+import noevo.enums.OpcionesIdiomas;
 
 @Data
 public class UsuarioUpdateRequestDTO {
@@ -22,7 +26,7 @@ public class UsuarioUpdateRequestDTO {
     @Email(message = "El email debe tener un formato valido")
     private String email;
 
-    @NotBlank(message = "Idioma preferido")
-    private String language;
+    @NotNull(message = "Idioma preferido")
+    private OpcionesIdiomas language;
 
 }

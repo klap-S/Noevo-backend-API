@@ -32,8 +32,8 @@ public class LoginServiceImpl implements LoginService {
         }
 
         usuario.setLastAccess(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        Usuario saved = usuarioServiceImpl.saved(usuario);
 
+        Usuario saved = usuarioServiceImpl.saved(usuario);
         return UsuarioLoginResponseDTO.builder()
                 .id(saved.getId())
                 .userName(saved.getUserName())

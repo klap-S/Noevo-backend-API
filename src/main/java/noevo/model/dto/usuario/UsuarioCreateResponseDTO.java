@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import noevo.enums.OpcionesIdiomas;
 
 //Noevo imports
 import noevo.enums.RolUsuario;
@@ -28,7 +29,7 @@ public class UsuarioCreateResponseDTO {
 
     private String email;
 
-    private String language;
+    private OpcionesIdiomas language;
 
     private RolUsuario rol;
 

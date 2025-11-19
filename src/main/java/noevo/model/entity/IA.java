@@ -6,6 +6,8 @@ import java.util.List;
 
 //Jakarta imports
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +22,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
+//Noevo imports
+import noevo.enums.OpcionesIdiomas;
 
 @Builder
 @Data
@@ -41,8 +46,9 @@ public class IA {
     @Column(name = "modelo", nullable = false)
     private String model;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "idioma", nullable = false)
-    private String language;
+    private OpcionesIdiomas language;
 
     // Union con tabla conversacion
     @OneToMany(mappedBy = "ia", cascade = CascadeType.ALL, orphanRemoval = true)

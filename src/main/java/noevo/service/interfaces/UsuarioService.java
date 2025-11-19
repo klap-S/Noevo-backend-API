@@ -23,13 +23,11 @@ public interface UsuarioService {
 
     void deleteById(Long id);
 
-    // Personalizado
-    // Devuelve DTO Response
-    List<UsuarioResponseDTO> findAllResponse();
-
-    // Devuelve DTO Response
-    Optional<UsuarioResponseDTO> findByIdResponse(Long id);
-
+    /*
+     * ====================================
+     * Personalizado
+     * ====================================
+     */
     // Buscar usuario por el nombre
     Optional<Usuario> findByUserName(String userName);
 
@@ -42,6 +40,22 @@ public interface UsuarioService {
     // Verificar si existe el email del usuario
     boolean existsByEmail(String email);
 
+    /*
+     * ====================================
+     * DTOs
+     * ====================================
+     */
+    // Devuelve DTO Response de todos los usuarios
+    List<UsuarioResponseDTO> findAllResponse();
+
+    // Devuelve DTO Response de un usuario por id
+    Optional<UsuarioResponseDTO> findByIdResponse(Long id);
+
+    /*
+     * ====================================
+     * Desarrollo logica
+     * ====================================
+     */
     // Crear usuario
     UsuarioCreateResponseDTO createUser(UsuarioCreateRequestDTO createUserRequestDTO);
 

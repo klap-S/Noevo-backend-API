@@ -3,9 +3,13 @@ package noevo.model.dto.usuario;
 //Jakarta imports
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 //Lombok imports
 import lombok.Data;
+
+//Noevo imports
+import noevo.enums.OpcionesIdiomas;
 
 @Data
 public class UsuarioCreateRequestDTO {
@@ -25,6 +29,6 @@ public class UsuarioCreateRequestDTO {
     @NotBlank(message = "Introduzca una contraseña")
     private String password;
 
-    @NotBlank(message = "Idioma preferido")
-    private String language;
+    @NotNull(message = "Idioma preferido")
+    private OpcionesIdiomas language;
 }

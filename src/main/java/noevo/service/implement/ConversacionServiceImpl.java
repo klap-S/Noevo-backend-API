@@ -2,6 +2,7 @@ package noevo.service.implement;
 
 //Java imports
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,40 +50,11 @@ public class ConversacionServiceImpl implements ConversacionService {
         conversacionRepository.deleteById(id);
     }
 
-    // Personalizada
-    // Devuelve DTO response todos
-    @Override
-    public List<ConversacionResponseDTO> findAllResponse() {
-        List<Conversacion> conversacion = findAll();
-
-        return conversacion.stream()
-                .map(con -> ConversacionResponseDTO.builder()
-                        .id(con.getId())
-                        .title(con.getTitle())
-                        .context(con.getContext())
-                        .startDate(con.getStartDate())
-                        .iaId(con.getIa().getId())
-                        .usuarioId(con.getUsuario().getId())
-                        .lastAccess(con.getLastAccess())
-                        .build())
-                .toList();
-    }
-
-    // Devuelve DTO response por id
-    @Override
-    public Optional<ConversacionResponseDTO> findByIdResponse(Long id) {
-        return findById(id)
-                .map(con -> ConversacionResponseDTO.builder()
-                        .id(con.getId())
-                        .title(con.getTitle())
-                        .context(con.getContext())
-                        .startDate(con.getStartDate())
-                        .iaId(con.getIa().getId())
-                        .usuarioId(con.getUsuario().getId())
-                        .lastAccess(con.getLastAccess())
-                        .build());
-    }
-
+    /*
+     * ====================================
+     * Personalizado Inicio
+     * ====================================
+     */
     // Mostrar todas las conversaciones ordenadas por el ultimo acceso ascendente
     @Override
     public List<Conversacion> showConversationDesc(Long usuarioId) {
@@ -101,6 +73,61 @@ public class ConversacionServiceImpl implements ConversacionService {
         return conversacionRepository.findByIdAndUsuarioIdAndIaId(conversacionId, usuarioId, iaId);
     }
 
+    /*
+     * ====================================
+     * Personalizado Fin
+     * ====================================
+     */
+
+    /*
+     * ====================================
+     * DTOs Inicio
+     * ====================================
+     */
+    // Devuelve DTO response todas las conversaciones
+    @Override
+    public List<ConversacionResponseDTO> findAllResponse() {
+        List<Conversacion> conversacion = findAll();
+
+        return conversacion.stream()
+                .map(con -> ConversacionResponseDTO.builder()
+                        .id(con.getId())
+                        .title(con.getTitle())
+                        .context(con.getContext())
+                        .startDate(con.getStartDate())
+                        .iaId(con.getIa().getId())
+                        .usuarioId(con.getUsuario().getId())
+                        .lastAccess(con.getLastAccess())
+                        .build())
+                .toList();
+    }
+
+    // Devuelve DTO response conversacion por id
+    @Override
+    public Optional<ConversacionResponseDTO> findByIdResponse(Long id) {
+        return findById(id)
+                .map(con -> ConversacionResponseDTO.builder()
+                        .id(con.getId())
+                        .title(con.getTitle())
+                        .context(con.getContext())
+                        .startDate(con.getStartDate())
+                        .iaId(con.getIa().getId())
+                        .usuarioId(con.getUsuario().getId())
+                        .lastAccess(con.getLastAccess())
+                        .build());
+    }
+
+    /*
+     * ====================================
+     * DTOs Fin
+     * ====================================
+     */
+
+    /*
+     * ====================================
+     * Desarrollo logica Inicio
+     * ====================================
+     */
     // Crear conversacion
     @Override
     public ConversacionResponseDTO createConversacion(Long usuarioId, Long iaId,
@@ -116,8 +143,8 @@ public class ConversacionServiceImpl implements ConversacionService {
                 .context(conversacionRequestDTO.getContext())
                 .ia(ia)
                 .usuario(usuario)
-                .startDate(LocalDateTime.now())
-                .lastAccess(LocalDateTime.now())
+                .startDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
+                .lastAccess(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                 .build();
 
         Conversacion savedConversacion = saved(conversacion);
@@ -155,4 +182,9 @@ public class ConversacionServiceImpl implements ConversacionService {
                 .build();
     }
 
+    /*
+     * ====================================
+     * Desarrollo logica Fin
+     * ====================================
+     */
 }

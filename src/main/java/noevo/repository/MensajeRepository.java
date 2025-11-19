@@ -17,9 +17,10 @@ public interface MensajeRepository extends JpaRepository<Mensaje, Long> {
     // Obtener todos los mensajes de una conversacion
     List<Mensaje> findByConversacionId(Long conversacionId);
 
-    // Obtener mensaje especifico de la conversacion para editar o eliminar
+    // Obtener mensaje especifico de la conversacion para editar
     Optional<Mensaje> findByIdAndConversacionId(Long mensajeId, Long conversacionId);
 
-    // Ordenar los mensajes
+    // Obtener los mensajes de la conversacion y ordenados por orden
+    // ascendete(1,2,3...)
     List<Mensaje> findByConversacionIdOrderByOrderAsc(Long conversacionId);
 }

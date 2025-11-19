@@ -12,33 +12,50 @@ import noevo.model.dto.mensaje.MensajeResponseDTO;
 
 public interface MensajeService {
 
-    // Basicos
-    List<Mensaje> findAll();
+        // Basicos
+        List<Mensaje> findAll();
 
-    Optional<Mensaje> findById(Long id);
+        Optional<Mensaje> findById(Long id);
 
-    Mensaje saved(Mensaje mensaje);
+        Mensaje saved(Mensaje mensaje);
 
-    void deleteById(Long id);
+        void deleteById(Long id);
 
-    // Personalizado
-    // Obtener todos los mensajes de una conversacion
-    List<Mensaje> findByConversacionId(Long conversacionId);
+        /*
+         * ====================================
+         * Personalizado
+         * ====================================
+         */
+        // Obtener todos los mensajes de una conversacion
+        List<Mensaje> findByConversacionId(Long conversacionId);
 
-    // Obtener mensaje especifico de la conversacion para editar o eliminar
-    Optional<Mensaje> findByIdAndConversacionId(Long mensajeId, Long conversacionId);
+        // Obtener mensaje especifico de la conversacion para editar o eliminar
+        Optional<Mensaje> findByIdAndConversacionId(Long mensajeId, Long conversacionId);
 
-    // Ordenar Conversacion por orden
-    List<Mensaje> findByConversacionIdOrderByOrderAsc(Long conversacionId);
+        // Obtener los mensajes de la conversacion y ordenados por orden
+        // ascendete(1,2,3...)
+        List<Mensaje> findByConversacionIdOrderByOrderAsc(Long conversacionId);
 
-    // Mostrar todos los mensajes de una conversacion para el DTO
-    List<MensajeResponseDTO> showMessageConversation(Long conversacionId, Long usuarioId, Long iaId);
+        /*
+         * ====================================
+         * DTOs
+         * ====================================
+         */
+        // Mostrar todos los mensajes de una conversacion para el DTO
+        List<MensajeResponseDTO> showMessageConversation(Long conversacionId, Long usuarioId, Long iaId);
 
-    // Crear mensaje
-    MensajeResponseDTO createMessage(Long usuarioId, Long iaId, Long conversacionId, OpcionesTipoMensajes tipoMensaje,
-            MensajeRequestDTO request);
+        /*
+         * ====================================
+         * Desarrollo logica
+         * ====================================
+         */
+        // Crear mensaje
+        MensajeResponseDTO createMessage(Long usuarioId, Long iaId, Long conversacionId,
+                        OpcionesTipoMensajes tipoMensaje,
+                        MensajeRequestDTO mensajeRequestDTO);
 
-    // Obtener mensaje especifico de la conversacion para editar
-    public MensajeResponseDTO editMessageConversation(Long mensajeId, Long conversacionId, Long usuarioId,
-            Long iaId, String newContent);
+        // Obtener mensaje especifico de la conversacion para editar
+        public MensajeResponseDTO editMessageConversation(Long mensajeId, Long conversacionId, Long usuarioId,
+                        Long iaId, String newContent);
+
 }

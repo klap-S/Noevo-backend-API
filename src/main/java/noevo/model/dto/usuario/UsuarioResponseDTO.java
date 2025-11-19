@@ -11,6 +11,7 @@ import lombok.Builder;
 
 //Noevo imports
 import noevo.enums.RolUsuario;
+import noevo.enums.OpcionesIdiomas;
 
 @Data
 @NoArgsConstructor
@@ -32,7 +33,7 @@ public class UsuarioResponseDTO {
 
     private LocalDateTime lastAccess;
 
-    private String language;
+    private OpcionesIdiomas language;
 
     private RolUsuario rol;
 

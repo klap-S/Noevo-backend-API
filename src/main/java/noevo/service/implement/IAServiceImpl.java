@@ -42,62 +42,11 @@ public class IAServiceImpl implements IAService {
         iaRepository.deleteById(id);
     }
 
-    // Personalizados
-    // Devuelve DTO response todoS
-    @Override
-    public List<IAResponseDTO> findAllResponse() {
-        List<IA> ia = findAll();
-
-        return ia.stream()
-                .map(ias -> IAResponseDTO.builder()
-                        .id(ias.getId())
-                        .name(ias.getName())
-                        .model(ias.getModel())
-                        .language(ias.getLanguage())
-                        .build())
-                .toList();
-    }
-
-    // Devuelve DTO response por id
-    @Override
-    public Optional<IAResponseDTO> findByIdResponse(Long id) {
-        return findById(id)
-                .map(ias -> IAResponseDTO.builder()
-                        .id(ias.getId())
-                        .name(ias.getName())
-                        .model(ias.getModel())
-                        .language(ias.getLanguage())
-                        .build());
-    }
-
-    // Devuelve DTO de nombre
-    @Override
-    public IAResponseDTO findByNameResponse(String name) {
-        IA ia = findByName(name)
-                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
-
-        return IAResponseDTO.builder()
-                .id(ia.getId())
-                .name(ia.getName())
-                .model(ia.getModel())
-                .language(ia.getLanguage())
-                .build();
-    }
-
-    // Devuelve DTO de modelos
-    @Override
-    public IAResponseDTO findByModelResponse(String model) {
-        IA ia = findByModel(model)
-                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
-
-        return IAResponseDTO.builder()
-                .id(ia.getId())
-                .name(ia.getName())
-                .model(ia.getModel())
-                .language(ia.getLanguage())
-                .build();
-    }
-
+    /*
+     * ====================================
+     * Personalizado Inicio
+     * ====================================
+     */
     @Override
     public Optional<IA> findByName(String name) {
         return iaRepository.findByName(name);
@@ -113,6 +62,83 @@ public class IAServiceImpl implements IAService {
         return iaRepository.existsByName(name);
     }
 
+    /*
+     * ====================================
+     * Personalizado Fin
+     * ====================================
+     */
+
+    /*
+     * ====================================
+     * DTO Inicio
+     * ====================================
+     */
+    // Devuelve DTO Response de todos las IA
+    @Override
+    public List<IAResponseDTO> findAllResponse() {
+        List<IA> ia = findAll();
+
+        return ia.stream()
+                .map(ias -> IAResponseDTO.builder()
+                        .id(ias.getId())
+                        .name(ias.getName())
+                        .model(ias.getModel())
+                        .language(ias.getLanguage())
+                        .build())
+                .toList();
+    }
+
+    // Devuelve DTO Response de una IA por id
+    @Override
+    public Optional<IAResponseDTO> findByIdResponse(Long id) {
+        return findById(id)
+                .map(ias -> IAResponseDTO.builder()
+                        .id(ias.getId())
+                        .name(ias.getName())
+                        .model(ias.getModel())
+                        .language(ias.getLanguage())
+                        .build());
+    }
+
+    // Devuelve DTO Response del nombre IA
+    @Override
+    public IAResponseDTO findByNameResponse(String name) {
+        IA ia = findByName(name)
+                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
+
+        return IAResponseDTO.builder()
+                .id(ia.getId())
+                .name(ia.getName())
+                .model(ia.getModel())
+                .language(ia.getLanguage())
+                .build();
+    }
+
+    // Devuelve DTO Response del modelo IA
+    @Override
+    public IAResponseDTO findByModelResponse(String model) {
+        IA ia = findByModel(model)
+                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
+
+        return IAResponseDTO.builder()
+                .id(ia.getId())
+                .name(ia.getName())
+                .model(ia.getModel())
+                .language(ia.getLanguage())
+                .build();
+    }
+
+    /*
+     * ====================================
+     * DTO Fin
+     * ====================================
+     */
+
+    /*
+     * ====================================
+     * Desarrollo Logica Inicio
+     * ====================================
+     */
     // Crear IA
     @Override
     public IAResponseDTO createIA(IARequestDTO iaRequestDTO) {
@@ -153,4 +179,9 @@ public class IAServiceImpl implements IAService {
                 .build();
     }
 
+    /*
+     * ====================================
+     * Desarrollo Logica Fin
+     * ====================================
+     */
 }

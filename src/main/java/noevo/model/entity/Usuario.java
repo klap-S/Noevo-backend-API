@@ -27,6 +27,7 @@ import lombok.EqualsAndHashCode;
 
 //Noevo imports
 import noevo.enums.RolUsuario;
+import noevo.enums.OpcionesIdiomas;
 
 @Builder
 @Data
@@ -63,8 +64,9 @@ public class Usuario {
     @Column(name = "ultimo_acceso", nullable = true)
     private LocalDateTime lastAccess = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "idioma", nullable = false)
-    private String language;
+    private OpcionesIdiomas language;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

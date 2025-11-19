@@ -13,11 +13,15 @@ import noevo.model.entity.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    // Buscar usuario por el nombre
     Optional<Usuario> findByUserName(String userName);
 
+    // Buscar email
     Optional<Usuario> findByEmail(String email);
 
+    // Verificar si existe el nombre del usuario
     boolean existsByUserName(String userName);
 
+    // Verificar si existe el email del usuario
     boolean existsByEmail(String email);
 }

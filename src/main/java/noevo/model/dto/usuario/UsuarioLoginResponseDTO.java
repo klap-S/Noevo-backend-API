@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 //Noevo imports
 import noevo.enums.RolUsuario;
+import noevo.enums.OpcionesIdiomas;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +24,7 @@ public class UsuarioLoginResponseDTO {
 
     private String email;
 
-    private String language;
+    private OpcionesIdiomas language;
 
     private RolUsuario rol;
 

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import noevo.service.implement.IAServiceImpl;
 import noevo.model.dto.ia.IARequestDTO;
 import noevo.model.dto.ia.IAResponseDTO;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/backend/api/ia")

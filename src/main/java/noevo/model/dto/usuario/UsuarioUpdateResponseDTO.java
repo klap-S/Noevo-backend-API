@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//Noevo imports
+import noevo.enums.OpcionesIdiomas;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,5 +25,5 @@ public class UsuarioUpdateResponseDTO {
 
     private String email;
 
-    private String language;
+    private OpcionesIdiomas language;
 }

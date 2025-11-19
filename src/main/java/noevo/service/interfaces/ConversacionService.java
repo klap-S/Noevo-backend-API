@@ -11,36 +11,50 @@ import noevo.model.dto.conversacion.ConversacionResponseDTO;
 
 public interface ConversacionService {
 
-    // Basicos
-    List<Conversacion> findAll();
+        // Basicos
+        List<Conversacion> findAll();
 
-    Optional<Conversacion> findById(Long id);
+        Optional<Conversacion> findById(Long id);
 
-    Conversacion saved(Conversacion conversacion);
+        Conversacion saved(Conversacion conversacion);
 
-    void deleteById(Long id);
+        void deleteById(Long id);
 
-    // Personalizado
-    // Response DTO
-    List<ConversacionResponseDTO> findAllResponse();
+        /*
+         * ====================================
+         * Personalizado
+         * ====================================
+         */
+        // Mostrar todas las conversaciones ordenadas por el ultimo acceso ascendente
+        List<Conversacion> showConversationDesc(Long usuarioId);
 
-    Optional<ConversacionResponseDTO> findByIdResponse(Long id);
+        // Buscar la conversacion del usuario por el titulo
+        List<Conversacion> findByTitle(Long usuarioId, String title);
 
-    // Mostrar todas las conversaciones ordenadas por el ultimo acceso ascendente
-    List<Conversacion> showConversationDesc(Long usuarioId);
+        // Obtener una conversacion especifica de un usuario y una IA
+        Optional<Conversacion> getConversationUsuario(Long conversacionId, Long usuarioId, Long iaId);
 
-    // Buscar la conversacion del usuario por el titulo
-    List<Conversacion> findByTitle(Long usuarioId, String title);
+        /*
+         * ====================================
+         * DTOs
+         * ====================================
+         */
+        // Devuelve DTO response todas las conversaciones
+        List<ConversacionResponseDTO> findAllResponse();
 
-    // Obtener una conversacion especifica de un usuario y una IA
-    Optional<Conversacion> getConversationUsuario(Long conversacionId, Long usuarioId, Long iaId);
+        // Devuelve DTO response conversacion por id
+        Optional<ConversacionResponseDTO> findByIdResponse(Long id);
 
-    // ResponseDTO y RequestDTO
-    // Crear conversacion
-    ConversacionResponseDTO createConversacion(Long usuarioId, Long iaId,
-            ConversacionRequestDTO conversacionRequestDTO);
+        /*
+         * ====================================
+         * Desarrollo logica
+         * ====================================
+         */
+        // Crear conversacion
+        ConversacionResponseDTO createConversacion(Long usuarioId, Long iaId,
+                        ConversacionRequestDTO conversacionRequestDTO);
 
-    // Editar Conversacion
-    ConversacionResponseDTO updateConversacion(Long conversacionId, Long usuarioId, Long iaId,
-            ConversacionRequestDTO conversacionRequestDTO);
+        // Editar Conversacion
+        ConversacionResponseDTO updateConversacion(Long conversacionId, Long usuarioId, Long iaId,
+                        ConversacionRequestDTO conversacionRequestDTO);
 }

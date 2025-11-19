@@ -5,6 +5,7 @@ import java.util.List;
 
 //Org imports
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,14 +22,14 @@ import noevo.model.dto.mensaje.MensajeRequestDTO;
 import noevo.model.dto.mensaje.MensajeResponseDTO;
 
 @RestController
-@RequestMapping("/api/mensaje")
+@RequestMapping("/backend/api/mensaje")
 public class MensajeController {
 
     @Autowired
     private MensajeServiceImpl mensajeServiceImpl;
 
     // Mostrar mensaje
-    @GetMapping("/mostrarMensajes/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}")
+    @GetMapping("/showMessage/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}")
     public List<MensajeResponseDTO> showMessages(
             @PathVariable Long usuarioId,
             @PathVariable Long iaId,
@@ -54,7 +55,7 @@ public class MensajeController {
     }
 
     // Editar mensaje existente
-    @PutMapping("/editMessage/{usuarioId}/{iaId}/conversacion/{conversacionId}/mensaje/{mensajeId}")
+    @PutMapping("/editMessage/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}/mensaje/{mensajeId}")
     public MensajeResponseDTO editMessage(
             @PathVariable Long usuarioId,
             @PathVariable Long iaId,
@@ -69,4 +70,11 @@ public class MensajeController {
                 iaId,
                 editRequest.getContentText());
     }
+
+    // Eliminar mensaje
+    @DeleteMapping("/deleteMessage/{id}")
+    public void delete(@PathVariable Long id) {
+        mensajeServiceImpl.deleteById(id);
+    }
+
 }

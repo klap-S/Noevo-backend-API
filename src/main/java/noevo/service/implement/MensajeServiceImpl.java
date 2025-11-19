@@ -54,23 +54,39 @@ public class MensajeServiceImpl implements MensajeService {
                 mensajeRepository.deleteById(id);
         }
 
-        // Personalizados
+        /*
+         * ====================================
+         * Personalizado Inicio
+         * ====================================
+         */
+        // Obtener todos los mensajes de una conversacion
+        public List<Mensaje> findByConversacionId(Long conversacionId) {
+                return mensajeRepository.findByConversacionId(conversacionId);
+        }
+
         // Obtener mensaje especifico de la conversacion para editar o eliminar
         @Override
         public Optional<Mensaje> findByIdAndConversacionId(Long mensajeId, Long conversacionesId) {
                 return mensajeRepository.findByIdAndConversacionId(mensajeId, conversacionesId);
         }
 
-        // Obtener todos los mensajes de una conversacion
-        public List<Mensaje> findByConversacionId(Long conversacionId) {
-                return mensajeRepository.findByConversacionId(conversacionId);
-        }
-
-        // Ordenar Conversacion por orden
+        // Obtener los mensajes de la conversacion y ordenados por orden
+        // ascendete(1,2,3...)
         public List<Mensaje> findByConversacionIdOrderByOrderAsc(Long conversacionId) {
                 return mensajeRepository.findByConversacionIdOrderByOrderAsc(conversacionId);
         }
 
+        /*
+         * ====================================
+         * Personalizado Fin
+         * ====================================
+         */
+
+        /*
+         * ====================================
+         * DTOs Inicio
+         * ====================================
+         */
         // Mostrar todos los mensajes de una conversacion para el DTO
         @Override
         public List<MensajeResponseDTO> showMessageConversation(Long conversacionId, Long usuarioId, Long iaId) {
@@ -96,10 +112,21 @@ public class MensajeServiceImpl implements MensajeService {
                                 .toList();
         }
 
+        /*
+         * ====================================
+         * DTOs FIN
+         * ====================================
+         */
+
+        /*
+         * ====================================
+         * Desarrollo logica Inicio
+         * ====================================
+         */
         // Crear mensaje
         @Override
         public MensajeResponseDTO createMessage(Long usuarioId, Long iaId, Long conversacionId,
-                        OpcionesTipoMensajes typeMessage, MensajeRequestDTO messageRequestDTO) {
+                        OpcionesTipoMensajes typeMessage, MensajeRequestDTO mensajeRequestDTO) {
                 Usuario usuario = usuarioServiceImpl.findById(usuarioId)
                                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
                 IA ia = iaServiceImpl.findById(iaId)
@@ -135,25 +162,24 @@ public class MensajeServiceImpl implements MensajeService {
                                 .order(order)
                                 .speaker(OpcionesRemitente.USUARIO)
                                 .sender(OpcionesRemitente.USUARIO)
-                                .contentText(messageRequestDTO.getContentText())
+                                .contentText(mensajeRequestDTO.getContentText())
                                 .type(OpcionesTipoMensajes.TEXTO)
                                 .shippingDate(LocalDateTime.now())
                                 .conversacion(conversacion)
                                 .build();
 
-                Mensaje saved = saved(mensaje);
-
+                Mensaje savedMensaje = saved(mensaje);
                 conversacion.setLastAccess(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
                 conversacionServiceImpl.saved(conversacion);
                 return MensajeResponseDTO.builder()
-                                .id(saved.getId())
-                                .order(saved.getOrder())
-                                .speaker(saved.getSpeaker())
-                                .sender(saved.getSender())
-                                .contentText(saved.getContentText())
-                                .type(saved.getType())
-                                .audioUrl(saved.getAudioUrl())
-                                .shippingDate(saved.getShippingDate())
+                                .id(savedMensaje.getId())
+                                .order(savedMensaje.getOrder())
+                                .speaker(savedMensaje.getSpeaker())
+                                .sender(savedMensaje.getSender())
+                                .contentText(savedMensaje.getContentText())
+                                .type(savedMensaje.getType())
+                                .audioUrl(savedMensaje.getAudioUrl())
+                                .shippingDate(savedMensaje.getShippingDate())
                                 .conversacionId(conversacion.getId())
                                 .build();
         }
@@ -165,7 +191,7 @@ public class MensajeServiceImpl implements MensajeService {
                 Conversacion conversacion = conversacionServiceImpl
                                 .getConversationUsuario(conversacionId, usuarioId, iaId)
                                 .orElseThrow(() -> new RuntimeException(
-                                                "Conversacion no encontrada o no al usuario"));
+                                                "Conversacion no encontrada o usuario no encontrado"));
 
                 Mensaje mensaje = findByIdAndConversacionId(mensajeId, conversacionId)
                                 .orElseThrow(() -> new RuntimeException("Mensaje no encontrado"));
@@ -187,4 +213,9 @@ public class MensajeServiceImpl implements MensajeService {
                                 .build();
         }
 
+        /*
+         * ====================================
+         * Desarrollo logica Fin
+         * ====================================
+         */
 }
