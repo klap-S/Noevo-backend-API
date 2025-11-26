@@ -51,7 +51,7 @@ public interface MensajeService {
          */
         // Crear mensaje
         MensajeResponseDTO createMessage(Long usuarioId, Long iaId, Long conversacionId,
-                        OpcionesTipoMensajes tipoMensaje,
+                        OpcionesTipoMensajes tipoMensaje, OpcionesRemitente typeSender, OpcionesRemitente typeSpeaker,
                         MensajeRequestDTO mensajeRequestDTO);
 
         // Obtener mensaje especifico de la conversacion para editar

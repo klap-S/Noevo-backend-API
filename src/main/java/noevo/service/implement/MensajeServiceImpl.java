@@ -123,10 +123,11 @@ public class MensajeServiceImpl implements MensajeService {
          * Desarrollo logica Inicio
          * ====================================
          */
-        // Crear mensaje
+        // Crear mensaje tanto de usuario como de IA
         @Override
         public MensajeResponseDTO createMessage(Long usuarioId, Long iaId, Long conversacionId,
-                        OpcionesTipoMensajes typeMessage, MensajeRequestDTO mensajeRequestDTO) {
+                        OpcionesTipoMensajes typeMessage, OpcionesRemitente typeSpeaker, OpcionesRemitente typeSender,
+                        MensajeRequestDTO mensajeRequestDTO) {
                 Usuario usuario = usuarioServiceImpl.findById(usuarioId)
                                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
                 IA ia = iaServiceImpl.findById(iaId)
@@ -143,33 +144,29 @@ public class MensajeServiceImpl implements MensajeService {
 
                         ConversacionResponseDTO responseDTO = conversacionServiceImpl.createConversacion(usuarioId,
                                         iaId, conversacionRequestDTO);
-
-                        conversacion = Conversacion.builder()
-                                        .id(responseDTO.getId())
-                                        .usuario(usuario)
-                                        .ia(ia)
-                                        .title(responseDTO.getTitle())
-                                        .context(responseDTO.getContext())
-                                        .startDate(responseDTO.getStartDate())
-                                        .lastAccess(responseDTO.getLastAccess())
-                                        .mensajes(new ArrayList<>())
-                                        .build();
+                        conversacion = conversacionServiceImpl.findById(responseDTO.getId())
+                                        .orElseThrow(() -> new RuntimeException("Error creando conversación"));
                 }
 
-                int order = (conversacion.getMensajes() == null) ? 1 : conversacion.getMensajes().size() + 1;
+                if (conversacion.getMensajes() == null) {
+                        conversacion.setMensajes(new ArrayList<>());
+                }
+
+                int order = conversacion.getMensajes().size() + 1;
 
                 Mensaje mensaje = Mensaje.builder()
                                 .order(order)
-                                .speaker(OpcionesRemitente.USUARIO)
-                                .sender(OpcionesRemitente.USUARIO)
+                                .speaker(typeSpeaker)
+                                .sender(typeSender)
                                 .contentText(mensajeRequestDTO.getContentText())
-                                .type(OpcionesTipoMensajes.TEXTO)
-                                .shippingDate(LocalDateTime.now())
+                                .type(typeMessage)
+                                .shippingDate(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                                 .conversacion(conversacion)
                                 .build();
 
                 Mensaje savedMensaje = saved(mensaje);
                 conversacion.setLastAccess(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+                conversacion.getMensajes().add(savedMensaje);
                 conversacionServiceImpl.saved(conversacion);
                 return MensajeResponseDTO.builder()
                                 .id(savedMensaje.getId())
