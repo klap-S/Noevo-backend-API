@@ -51,7 +51,7 @@ public class Mensaje {
 
     // Texto en base de datos con Lob
     @Lob
-    @Column(name = "contenido_texto", nullable = true)
+    @Column(name = "contenido_texto", columnDefinition = "TEXT", nullable = true)
     private String contentText;
 
     @Enumerated(EnumType.STRING)
