@@ -135,18 +135,8 @@ public class MensajeServiceImpl implements MensajeService {
 
                 Conversacion conversacion = conversacionServiceImpl
                                 .getConversationUsuario(conversacionId, usuarioId, iaId)
-                                .orElse(null);
-
-                if (conversacion == null) {
-                        ConversacionRequestDTO conversacionRequestDTO = new ConversacionRequestDTO();
-                        conversacionRequestDTO.setTitle("Conversacion_" + (int) (Math.random() * 10000));
-                        conversacionRequestDTO.setContext("Contexto_" + (int) (Math.random() * 10000));
-
-                        ConversacionResponseDTO responseDTO = conversacionServiceImpl.createConversacion(usuarioId,
-                                        iaId, conversacionRequestDTO);
-                        conversacion = conversacionServiceImpl.findById(responseDTO.getId())
-                                        .orElseThrow(() -> new RuntimeException("Error creando conversación"));
-                }
+                                .orElseThrow(() -> new RuntimeException(
+                                                "Conversacion no encontrada"));
 
                 if (conversacion.getMensajes() == null) {
                         conversacion.setMensajes(new ArrayList<>());

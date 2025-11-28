@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import noevo.service.interfaces.IAGPTService;
 import noevo.enums.OpcionesRemitente;
 import noevo.enums.OpcionesTipoMensajes;
+import noevo.model.dto.conversacion.ConversacionRequestDTO;
+import noevo.model.dto.conversacion.ConversacionResponseDTO;
 import noevo.model.dto.mensaje.MensajeRequestDTO;
 import noevo.model.dto.mensaje.MensajeResponseDTO;
 
@@ -22,6 +24,8 @@ public class IAGPTServiceImpl implements IAGPTService {
 
         @Autowired
         private MensajeServiceImpl mensajeServiceImpl;
+        @Autowired
+        private ConversacionServiceImpl conversacionServiceImpl;
 
         private final WebClient webClient;
         private final String model;
@@ -37,7 +41,8 @@ public class IAGPTServiceImpl implements IAGPTService {
                 this.model = model;
         }
 
-        // Se envia el mensaje de usuario y se obtiene la respuesta de la IA
+        // Se envia el mensaje de usuario y se obtiene la respuesta de la IA, ademas se
+        // guarda en la conversacion y si no existe se crea la conversacion
         @Override
         public MensajeResponseDTO messageAndResponse(
                         Long usuarioId,
@@ -45,19 +50,40 @@ public class IAGPTServiceImpl implements IAGPTService {
                         Long conversacionId,
                         String messageUsuario) {
 
+                Long currentConversacionId = conversacionId;
+
+                // Crea la conversacion si no existe por parte de la IA
+                if (currentConversacionId == null) {
+
+                        String promptTitle = "Genera un titulo muy corto con un maximo de 5 palabras para esta conversacion: \""
+                                        + messageUsuario + "\"";
+                        String promptContext = "Genera un contexto muy corto con un máximo 5 palabras para esta conversacion: \""
+                                        + messageUsuario + "\"";
+
+                        String title = sendMessageGPT(promptTitle);
+                        String context = sendMessageGPT(promptContext);
+
+                        ConversacionRequestDTO conversacionRequestDTO = new ConversacionRequestDTO();
+                        conversacionRequestDTO.setTitle(title);
+                        conversacionRequestDTO.setContext(context);
+
+                        ConversacionResponseDTO conversacionResponseDTO = conversacionServiceImpl.createConversacion(
+                                        usuarioId, iaId, conversacionRequestDTO);
+                        currentConversacionId = conversacionResponseDTO.getId();
+                }
+
                 // Mensaje de usuario
                 MensajeRequestDTO mensajeRequestDTO = new MensajeRequestDTO();
                 mensajeRequestDTO.setContentText(messageUsuario);
 
-                MensajeResponseDTO mensajeResponseDTOUsuario = mensajeServiceImpl.createMessage(
+                mensajeServiceImpl.createMessage(
                                 usuarioId,
                                 iaId,
-                                conversacionId,
+                                currentConversacionId,
                                 OpcionesTipoMensajes.TEXTO,
                                 OpcionesRemitente.USUARIO,
                                 OpcionesRemitente.IA,
                                 mensajeRequestDTO);
-                Long currentConversacionId = mensajeResponseDTOUsuario.getConversacionId();
                 String responseIA = sendMessageGPT(messageUsuario);
 
                 // Mensaje de IA
