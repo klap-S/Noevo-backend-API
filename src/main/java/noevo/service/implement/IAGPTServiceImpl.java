@@ -18,6 +18,7 @@ import noevo.model.dto.conversacion.ConversacionRequestDTO;
 import noevo.model.dto.conversacion.ConversacionResponseDTO;
 import noevo.model.dto.mensaje.MensajeRequestDTO;
 import noevo.model.dto.mensaje.MensajeResponseDTO;
+import noevo.model.entity.IA;
 
 @Service
 public class IAGPTServiceImpl implements IAGPTService {
@@ -26,6 +27,8 @@ public class IAGPTServiceImpl implements IAGPTService {
         private MensajeServiceImpl mensajeServiceImpl;
         @Autowired
         private ConversacionServiceImpl conversacionServiceImpl;
+        @Autowired
+        private IAServiceImpl iaServiceImpl;
 
         private final WebClient webClient;
         private final String model;
@@ -72,6 +75,12 @@ public class IAGPTServiceImpl implements IAGPTService {
                         currentConversacionId = conversacionResponseDTO.getId();
                 }
 
+                IA ia = iaServiceImpl.findById(iaId)
+                                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
+                ia.getName();
+                ia.getModel();
+                ia.getLanguage();
+
                 // Mensaje de usuario
                 MensajeRequestDTO mensajeRequestDTO = new MensajeRequestDTO();
                 mensajeRequestDTO.setContentText(messageUsuario);
@@ -84,7 +93,10 @@ public class IAGPTServiceImpl implements IAGPTService {
                                 OpcionesRemitente.USUARIO,
                                 OpcionesRemitente.IA,
                                 mensajeRequestDTO);
-                String responseIA = sendMessageGPT(messageUsuario);
+                String promtMessageUsuario = "Eres una IA llamada " + ia.getName() + " con este rol:" + ia.getModel()
+                                + " y las respuestas deben ser obligatorio en " + ia.getLanguage()
+                                + ". Esta es la pregunta del usuario: " + messageUsuario;
+                String responseIA = sendMessageGPT(promtMessageUsuario);
 
                 // Mensaje de IA
                 MensajeRequestDTO mensajeRequestDTOIA = new MensajeRequestDTO();
