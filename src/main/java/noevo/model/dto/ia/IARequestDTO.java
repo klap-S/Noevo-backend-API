@@ -9,6 +9,7 @@ import lombok.Data;
 
 //Noevo imports
 import noevo.enums.OpcionesIdiomas;
+import noevo.enums.RolIA;
 
 @Data
 public class IARequestDTO {
@@ -16,8 +17,8 @@ public class IARequestDTO {
     @NotBlank(message = "Introduzca un nombre")
     private String name;
 
-    @NotBlank(message = "Introduzca un modelo")
-    private String model;
+    @NotBlank(message = "Introduzca un rol")
+    private RolIA rol;
 
     @NotNull(message = "Introduzca un idioma")
     private OpcionesIdiomas language;

@@ -25,6 +25,7 @@ import lombok.Builder;
 
 //Noevo imports
 import noevo.enums.OpcionesIdiomas;
+import noevo.enums.RolIA;
 
 @Builder
 @Data
@@ -43,8 +44,9 @@ public class IA {
     @Column(name = "nombre", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "modelo", nullable = false)
-    private String model;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rol", nullable = false)
+    private RolIA rol;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "idioma", nullable = false)

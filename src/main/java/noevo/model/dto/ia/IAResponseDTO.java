@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 //Noevo imports
 import noevo.enums.OpcionesIdiomas;
+import noevo.enums.RolIA;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class IAResponseDTO {
 
     private String name;
 
-    private String model;
+    private RolIA rol;
 
     private OpcionesIdiomas language;
 

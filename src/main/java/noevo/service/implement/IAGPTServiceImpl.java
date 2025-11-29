@@ -78,7 +78,7 @@ public class IAGPTServiceImpl implements IAGPTService {
                 IA ia = iaServiceImpl.findById(iaId)
                                 .orElseThrow(() -> new RuntimeException("IA no encontrada"));
                 ia.getName();
-                ia.getModel();
+                ia.getRol();
                 ia.getLanguage();
 
                 // Mensaje de usuario
@@ -93,7 +93,7 @@ public class IAGPTServiceImpl implements IAGPTService {
                                 OpcionesRemitente.USUARIO,
                                 OpcionesRemitente.IA,
                                 mensajeRequestDTO);
-                String promtMessageUsuario = "Eres una IA llamada " + ia.getName() + " con este rol:" + ia.getModel()
+                String promtMessageUsuario = "Eres una IA llamada " + ia.getName() + " con este rol:" + ia.getRol()
                                 + " y las respuestas deben ser obligatorio en " + ia.getLanguage()
                                 + ". Esta es la pregunta del usuario: " + messageUsuario;
                 String responseIA = sendMessageGPT(promtMessageUsuario);

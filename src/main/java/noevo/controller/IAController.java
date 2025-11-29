@@ -66,10 +66,10 @@ public class IAController {
                 return iaServiceImpl.findByNameResponse(name);
         }
 
-        // Buscar por modelo
-        @GetMapping("/searchModel/{model}")
-        public IAResponseDTO getByModel(@PathVariable String model) {
-                return iaServiceImpl.findByModelResponse(model);
+        // Buscar por rol de la IA
+        @GetMapping("/searchRol/{rol}")
+        public IAResponseDTO getByRol(@PathVariable String rol) {
+                return iaServiceImpl.findByRolResponse(rol);
         }
 
 }

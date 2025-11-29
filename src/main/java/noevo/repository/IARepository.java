@@ -16,8 +16,8 @@ public interface IARepository extends JpaRepository<IA, Long> {
     // Buscar IA por el nombre
     Optional<IA> findByName(String name);
 
-    // Buscar modelo
-    Optional<IA> findByModel(String model);
+    // Buscar rol de la IA
+    Optional<IA> findByRol(String rol);
 
     // Verificar si existe el nombre
     boolean existsByName(String name);

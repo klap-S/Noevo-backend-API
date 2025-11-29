@@ -53,8 +53,8 @@ public class IAServiceImpl implements IAService {
     }
 
     @Override
-    public Optional<IA> findByModel(String model) {
-        return iaRepository.findByModel(model);
+    public Optional<IA> findByRol(String rol) {
+        return iaRepository.findByRol(rol);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class IAServiceImpl implements IAService {
                 .map(ias -> IAResponseDTO.builder()
                         .id(ias.getId())
                         .name(ias.getName())
-                        .model(ias.getModel())
+                        .rol(ias.getRol())
                         .language(ias.getLanguage())
                         .build())
                 .toList();
@@ -95,7 +95,7 @@ public class IAServiceImpl implements IAService {
                 .map(ias -> IAResponseDTO.builder()
                         .id(ias.getId())
                         .name(ias.getName())
-                        .model(ias.getModel())
+                        .rol(ias.getRol())
                         .language(ias.getLanguage())
                         .build());
     }
@@ -109,21 +109,21 @@ public class IAServiceImpl implements IAService {
         return IAResponseDTO.builder()
                 .id(ia.getId())
                 .name(ia.getName())
-                .model(ia.getModel())
+                .rol(ia.getRol())
                 .language(ia.getLanguage())
                 .build();
     }
 
-    // Devuelve DTO Response del modelo IA
+    // Devuelve DTO Response del rol IA
     @Override
-    public IAResponseDTO findByModelResponse(String model) {
-        IA ia = findByModel(model)
+    public IAResponseDTO findByRolResponse(String rol) {
+        IA ia = findByRol(rol)
                 .orElseThrow(() -> new RuntimeException("IA no encontrada"));
 
         return IAResponseDTO.builder()
                 .id(ia.getId())
                 .name(ia.getName())
-                .model(ia.getModel())
+                .rol(ia.getRol())
                 .language(ia.getLanguage())
                 .build();
     }
@@ -147,7 +147,7 @@ public class IAServiceImpl implements IAService {
         }
         IA ia = IA.builder()
                 .name(iaRequestDTO.getName())
-                .model(iaRequestDTO.getModel())
+                .rol(iaRequestDTO.getRol())
                 .language(iaRequestDTO.getLanguage())
                 .build();
 
@@ -155,7 +155,7 @@ public class IAServiceImpl implements IAService {
         return IAResponseDTO.builder()
                 .id(savedIA.getId())
                 .name(savedIA.getName())
-                .model(savedIA.getModel())
+                .rol(savedIA.getRol())
                 .language(savedIA.getLanguage())
                 .build();
     }
@@ -167,14 +167,14 @@ public class IAServiceImpl implements IAService {
                 .orElseThrow(() -> new RuntimeException("IA no encontrada"));
 
         ia.setName(iaRequestDTO.getName());
-        ia.setModel(iaRequestDTO.getModel());
+        ia.setRol(iaRequestDTO.getRol());
         ia.setLanguage(iaRequestDTO.getLanguage());
 
         IA updatedIA = iaRepository.save(ia);
         return IAResponseDTO.builder()
                 .id(updatedIA.getId())
                 .name(updatedIA.getName())
-                .model(updatedIA.getModel())
+                .rol(updatedIA.getRol())
                 .language(updatedIA.getLanguage())
                 .build();
     }

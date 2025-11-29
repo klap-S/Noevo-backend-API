@@ -28,8 +28,8 @@ public interface IAService {
     // Buscar IA por el nombre
     Optional<IA> findByName(String name);
 
-    // Buscar modelo
-    Optional<IA> findByModel(String model);
+    // Buscar rol de la IA
+    Optional<IA> findByRol(String rol);
 
     // Verificar si existe el nombre
     boolean existsByName(String name);
@@ -48,8 +48,8 @@ public interface IAService {
     // Devuelve DTO Response del nombre IA
     IAResponseDTO findByNameResponse(String name);
 
-    // Devuelve DTO Response del modelo IA
-    IAResponseDTO findByModelResponse(String model);
+    // Devuelve DTO Response del rol IA
+    IAResponseDTO findByRolResponse(String rol);
 
     /*
      * ====================================
