@@ -35,23 +35,6 @@ public class MensajeController {
         return mensajeServiceImpl.showMessageConversation(conversacionId, usuarioId, iaId);
     }
 
-    // // Crear mensaje
-    // @PostMapping("/createMessage/usuario/{usuarioId}/ia/{iaId}")
-    // public MensajeResponseDTO createMessage(
-    // @PathVariable Long usuarioId,
-    // @PathVariable Long iaId,
-    // @RequestParam(value = "conversacionId", required = false) Long
-    // conversacionId,
-    // @RequestBody MensajeRequestDTO messageRequestDTO) {
-
-    // return mensajeServiceImpl.createMessage(
-    // usuarioId,
-    // iaId,
-    // conversacionId,
-    // OpcionesTipoMensajes.TEXTO,
-    // messageRequestDTO);
-    // }
-
     // Editar mensaje existente
     @PutMapping("/editMessage/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}/mensaje/{mensajeId}")
     public MensajeResponseDTO editMessage(

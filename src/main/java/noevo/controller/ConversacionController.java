@@ -28,7 +28,7 @@ public class ConversacionController {
         @Autowired
         private ConversacionServiceImpl conversacionServiceImpl;
 
-        // Obtener toda la conversacion
+        // Obtener todas las conversaciones que existen
         @GetMapping
         public List<ConversacionResponseDTO> getAll() {
                 return conversacionServiceImpl.findAllResponse();
@@ -39,15 +39,6 @@ public class ConversacionController {
         public ConversacionResponseDTO getById(@PathVariable Long id) {
                 return conversacionServiceImpl.findByIdResponse(id)
                                 .orElseThrow(() -> new RuntimeException("Usuario no econtrado"));
-        }
-
-        // Crear una conversacion
-        public ConversacionResponseDTO createConversacion(
-                        @PathVariable Long usuarioId,
-                        @PathVariable Long iaId,
-                        @Valid @RequestBody ConversacionRequestDTO conversacionRequestDTO) {
-
-                return conversacionServiceImpl.createConversacion(usuarioId, iaId, conversacionRequestDTO);
         }
 
         // Editar conversacion

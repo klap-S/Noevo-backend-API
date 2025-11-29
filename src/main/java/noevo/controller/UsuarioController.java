@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//Lombok imports
-import lombok.Builder;
-
 //Noevo imports
 import noevo.model.dto.usuario.UsuarioCreateRequestDTO;
 import noevo.model.dto.usuario.UsuarioCreateResponseDTO;
@@ -27,7 +24,6 @@ import noevo.service.implement.UsuarioServiceImpl;
 
 @RestController
 @RequestMapping("/backend/api/usuario")
-@Builder
 public class UsuarioController {
 
         @Autowired
