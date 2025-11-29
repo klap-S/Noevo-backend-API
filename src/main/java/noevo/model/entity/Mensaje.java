@@ -2,7 +2,6 @@ package noevo.model.entity;
 
 //Java imports
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 //Jakarta imports
 import jakarta.persistence.Entity;
@@ -49,9 +48,10 @@ public class Mensaje {
     @Column(name = "remitente", nullable = false)
     private OpcionesRemitente sender;
 
-    // Texto en base de datos con Lob
+    // Texto en base de datos con Lob, y el columnDefinition a text para que permita
+    // texto largos
     @Lob
-    @Column(name = "contenido_texto", columnDefinition = "TEXT", nullable = true)
+    @Column(name = "contenido_texto", columnDefinition = "TEXT", nullable = false)
     private String contentText;
 
     @Enumerated(EnumType.STRING)
@@ -61,8 +61,8 @@ public class Mensaje {
     @Column(name = "audio_url", nullable = true)
     private String audioUrl;
 
-    @Column(name = "fecha_envio")
-    private LocalDateTime shippingDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    @Column(name = "fecha_envio", nullable = false)
+    private LocalDateTime shippingDate;
 
     // Union con tablas conversacion
     @ManyToOne

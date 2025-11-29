@@ -2,7 +2,6 @@ package noevo.model.entity;
 
 //Java imports
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +38,14 @@ public class Conversacion {
     @Column(name = "titulo", nullable = false)
     private String title;
 
-    @Column(name = "contexto", nullable = true)
+    @Column(name = "contexto", nullable = false)
     private String context;
 
     @Column(name = "fecha_inicio", nullable = false)
-    private LocalDateTime startDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    private LocalDateTime startDate;
 
-    @Column(name = "ultimo_acceso", nullable = true)
-    private LocalDateTime lastAccess = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    @Column(name = "ultimo_acceso", nullable = false)
+    private LocalDateTime lastAccess;
 
     // Union con tabla mensaje, usuario e ia
     @OneToMany(mappedBy = "conversacion", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -4,7 +4,6 @@ package noevo.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 //Jakarta imports
 import jakarta.persistence.Entity;
@@ -59,10 +58,10 @@ public class Usuario {
     private String password;
 
     @Column(name = "fecha_registro", nullable = false)
-    private LocalDateTime registrationDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    private LocalDateTime registrationDate;
 
     @Column(name = "ultimo_acceso", nullable = true)
-    private LocalDateTime lastAccess = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    private LocalDateTime lastAccess;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "idioma", nullable = false)

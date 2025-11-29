@@ -41,7 +41,7 @@ public class IA {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "nombre", nullable = false, unique = true)
+    @Column(name = "nombre", nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
