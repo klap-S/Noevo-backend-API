@@ -14,6 +14,7 @@ import noevo.repository.IARepository;
 import noevo.service.interfaces.IAService;
 import noevo.model.dto.ia.IARequestDTO;
 import noevo.model.dto.ia.IAResponseDTO;
+import noevo.enums.OpcionesIdiomas;
 
 @Service
 public class IAServiceImpl implements IAService {
@@ -55,6 +56,12 @@ public class IAServiceImpl implements IAService {
     @Override
     public Optional<IA> findByRol(String rol) {
         return iaRepository.findByRol(rol);
+    }
+
+    // Buscar idioma de la IA
+    @Override
+    public Optional<IA> findByLanguage(OpcionesIdiomas language) {
+        return iaRepository.findByLanguage(language);
     }
 
     @Override
@@ -118,6 +125,19 @@ public class IAServiceImpl implements IAService {
     @Override
     public IAResponseDTO findByRolResponse(String rol) {
         IA ia = findByRol(rol)
+                .orElseThrow(() -> new RuntimeException("IA no encontrada"));
+
+        return IAResponseDTO.builder()
+                .id(ia.getId())
+                .name(ia.getName())
+                .rol(ia.getRol())
+                .language(ia.getLanguage())
+                .build();
+    }
+
+    // Devuelve DTO Response del idioma de la IA
+    public IAResponseDTO findByLanguageResponse(OpcionesIdiomas language) {
+        IA ia = findByLanguage(language)
                 .orElseThrow(() -> new RuntimeException("IA no encontrada"));
 
         return IAResponseDTO.builder()

@@ -8,6 +8,7 @@ import java.util.Optional;
 import noevo.model.entity.IA;
 import noevo.model.dto.ia.IARequestDTO;
 import noevo.model.dto.ia.IAResponseDTO;
+import noevo.enums.OpcionesIdiomas;
 
 public interface IAService {
 
@@ -31,6 +32,9 @@ public interface IAService {
     // Buscar rol de la IA
     Optional<IA> findByRol(String rol);
 
+    // Buscar idioma de la IA
+    Optional<IA> findByLanguage(OpcionesIdiomas language);
+
     // Verificar si existe el nombre
     boolean existsByName(String name);
 
@@ -50,6 +54,9 @@ public interface IAService {
 
     // Devuelve DTO Response del rol IA
     IAResponseDTO findByRolResponse(String rol);
+
+    // Devuelve DTO Response del idioma de la IA
+    IAResponseDTO findByLanguageResponse(OpcionesIdiomas language);
 
     /*
      * ====================================

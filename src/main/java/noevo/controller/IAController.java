@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 //Noevo imports
 import noevo.service.implement.IAServiceImpl;
+import noevo.enums.OpcionesIdiomas;
 import noevo.model.dto.ia.IARequestDTO;
 import noevo.model.dto.ia.IAResponseDTO;
 
@@ -70,6 +71,12 @@ public class IAController {
         @GetMapping("/searchRol/{rol}")
         public IAResponseDTO getByRol(@PathVariable String rol) {
                 return iaServiceImpl.findByRolResponse(rol);
+        }
+
+        // Buscar por idioma de la IA
+        @GetMapping("/searchLanguage/{language}")
+        public IAResponseDTO getByLanguage(@PathVariable OpcionesIdiomas language) {
+                return iaServiceImpl.findByLanguageResponse(language);
         }
 
 }
