@@ -21,6 +21,12 @@
         id="sidebar"
         class="fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-300 shadow-lg flex flex-col transform -translate-x-64 transition-transform duration-300 z-40"
       >
+        <button
+          id="newChatBtn"
+          class="w-full bg-green-500 text-white px-4 py-2 rounded mb-4 hover:bg-green-600"
+        >
+          + Nuevo Chat
+        </button>
         <!-- Botón para cerrar sidebar dentro del sidebar -->
         <div class="p-4 border-b border-gray-300 flex justify-end">
           <button id="closeSidebarBtn" class="bg-gray-200 p-2 rounded">
@@ -115,6 +121,7 @@
     <script src="js/charge-message.js"></script>
     <script src="js/get-conversacion.js"></script>
     <script src="js/get-ia.js"></script>
+    <script src="js/new-chat.js"></script>
     <script>
       // Declaración de conversacionId para tu JS
       let conversacionId = null;
