@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const guestBtn = document.getElementById('guestBtn2')
-  const authMessage = document.getElementById('authMessage') // 🔑 esto faltaba
+  const authMessage = document.getElementById('authMessage')
 
   guestBtn.addEventListener('click', async () => {
     try {
@@ -12,13 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await res.json()
 
-      // Guardar info en sessionStorage
       sessionStorage.setItem('userName', data.userName)
       sessionStorage.setItem('rol', data.rol)
 
       authMessage.textContent = 'Entrando como invitado...'
 
-      // Redirigir al chat
       window.location.href = '../../workspace/chat-ia-mensajes.html'
     } catch (err) {
       console.error(err)

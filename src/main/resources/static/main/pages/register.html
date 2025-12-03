@@ -3,25 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Chat - Registro</title>
+    <title>Noevo - Registro</title>
 
-    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fuente Inter -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Configuración de Tailwind para colores personalizados -->
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              "primary-accent": "#10B981", // Emerald 500
-              "primary-bg": "#F0FDF4", // Emerald 50
+              "primary-accent": "#10B981",
+              "primary-bg": "#F0FDF4",
             },
             fontFamily: {
               sans: ["Inter", "sans-serif"],
@@ -34,7 +31,6 @@
   <body
     class="bg-gray-100 font-sans antialiased flex items-center justify-center min-h-screen p-4"
   >
-    <!-- PANTALLA DE REGISTRO -->
     <div
       id="register-container"
       class="w-full max-w-lg bg-white rounded-xl shadow-2xl p-8 space-y-6"
@@ -42,17 +38,14 @@
       <div class="text-center">
         <span class="text-6xl text-primary-accent">📝</span>
         <h1 class="text-3xl font-bold text-gray-900 mt-2">Crea tu Cuenta</h1>
-        <p class="text-gray-500">Únete a la comunidad de AI Chat.</p>
       </div>
 
-      <!-- Formulario de REGISTRO -->
       <form
         id="register-form"
         class="space-y-4"
         onsubmit="handleRegister(event)"
       >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Nombre -->
           <div>
             <label
               for="register-name"
@@ -66,7 +59,6 @@
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent"
             />
           </div>
-          <!-- Apellido -->
           <div>
             <label
               for="register-lastname"
@@ -82,7 +74,6 @@
           </div>
         </div>
 
-        <!-- Username -->
         <div>
           <label
             for="register-username"
@@ -97,7 +88,6 @@
           />
         </div>
 
-        <!-- Email -->
         <div>
           <label
             for="register-email"
@@ -113,7 +103,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Contraseña -->
           <div>
             <label
               for="register-password"
@@ -128,7 +117,6 @@
             />
             <p class="text-xs text-gray-500 mt-1">Mínimo 6 caracteres.</p>
           </div>
-          <!-- Idioma -->
           <div>
             <label
               for="register-language"
@@ -155,21 +143,18 @@
         </button>
       </form>
 
-      <!-- Enlace a Login -->
       <div class="text-center text-sm pt-2 border-t border-gray-100">
         <a href="../../index.html" class="text-gray-500 hover:underline">
           ¿Ya tienes una cuenta? Inicia sesión aquí
         </a>
       </div>
 
-      <!-- Barra de estado de carga/error -->
       <div
         id="register-status"
         class="text-center text-sm font-medium mt-4 h-5"
       ></div>
     </div>
 
-    <!-- Carga del JavaScript con la lógica de Firebase -->
     <script src="../js/create-user.js"></script>
   </body>
 </html>

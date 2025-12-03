@@ -11,7 +11,7 @@ form.addEventListener('submit', async (e) => {
   appendMessage('Usuario', message)
   input.value = ''
 
-  const iaId = iaSelect.value || 1 // IA seleccionada
+  const iaId = iaSelect.value || 1
 
   try {
     const url = `http://localhost:8080/backend/api/gpt/chat/ia/${iaId}?conversacionId=${
@@ -21,7 +21,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // enviar cookies de sesión para mantener login
+      credentials: 'include',
       body: JSON.stringify({ contentText: message }),
     })
 
@@ -29,10 +29,8 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json()
 
-    // Guardar id de la conversación si es nueva
     conversacionId = data.conversacionId
 
-    // Mostrar respuesta de la IA
     appendMessage('IA', data.contentText)
   } catch (err) {
     console.error('Error al enviar mensaje:', err)
@@ -40,15 +38,13 @@ form.addEventListener('submit', async (e) => {
   }
 })
 
-// Función para agregar mensajes al chat
 function appendMessage(sender, text) {
   const div = document.createElement('div')
 
-  // Mensaje ocupa todo el ancho y se ve como bloque
   div.className = `p-2 rounded mb-2 ${
     sender === 'Usuario'
-      ? 'bg-green-500 text-white text-right' // Usuario: verde
-      : 'bg-sky-300 text-black text-left' // IA: azul celeste
+      ? 'bg-green-500 text-white text-right'
+      : 'bg-sky-300 text-black text-left'
   }`
 
   div.textContent = text
@@ -62,12 +58,11 @@ logoutBtn.addEventListener('click', async () => {
   try {
     const res = await fetch('http://localhost:8080/backend/api/logout', {
       method: 'POST',
-      credentials: 'include', // importante para enviar cookies de sesión
+      credentials: 'include',
     })
 
     if (!res.ok) throw new Error('Error al cerrar sesión')
 
-    // Redirigir a login
     window.location.href = '../index.html'
   } catch (err) {
     alert(err.message)

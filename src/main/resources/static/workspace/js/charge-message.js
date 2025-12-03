@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       'http://localhost:8080/backend/api/conversacion/ordenada',
       {
         method: 'GET',
-        credentials: 'include', // ⚡ importante para cookies
+        credentials: 'include',
       }
     )
 
@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       li.className = 'p-2 bg-gray-100 rounded cursor-pointer hover:bg-gray-200'
 
       li.addEventListener('click', async () => {
-        // Al hacer click, se cargan los mensajes de esa conversación
         try {
           const mensajesResp = await fetch(
             `http://localhost:8080/backend/api/mensaje/showMessage/ia/${conv.iaId}/conversacion/${conv.id}`,
@@ -38,10 +37,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           const mensajes = await mensajesResp.json()
 
-          // Limpiar chat
           chatContainer.innerHTML = ''
 
-          // Mostrar mensajes
           mensajes.forEach((msg) => {
             const div = document.createElement('div')
             div.textContent = msg.text // Ajusta según tu DTO

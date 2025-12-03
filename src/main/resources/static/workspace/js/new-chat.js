@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatContainer = document.getElementById('chat')
 
   newChatBtn.addEventListener('click', () => {
-    // Limpiar el chat
+    // Limpiar el chat para esa conversacion nueva
     chatContainer.innerHTML = ''
 
     // Reiniciar conversacionId para empezar una conversación nueva
