@@ -1,0 +1,5 @@
+package noevo.enums;
+
+public enum RolIA {
+    PROFESOR, ASISTENTE_VIAJES, ENTRENADOR_PERSONAL, PROGRAMADOR, COCINERO
+}

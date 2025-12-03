@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noevo chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary-green": "#D1FAE5",
+              "accent-green": "#34D399",
+              "dark-green": "#059669",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-primary-green h-screen w-screen overflow-hidden font-sans">
+    <div class="flex h-full w-full">
+      <button
+        id="openSidebarBtn"
+        class="fixed top-4 left-4 z-50 bg-white text-dark-green p-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-150 ease-in-out"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+
+      <div
+        id="sidebar"
+        class="fixed top-0 left-0 h-full w-64 bg-white border-r border-accent-green shadow-xl flex flex-col transform -translate-x-64 transition-transform duration-300 z-40"
+      >
+        <div
+          class="p-4 border-b border-gray-100 flex justify-between items-center"
+        >
+          <button
+            id="newChatBtn"
+            class="flex-1 bg-dark-green text-white px-4 py-2 rounded-lg shadow hover:bg-accent-green transition duration-150 ease-in-out font-medium mr-2"
+          >
+            + Nuevo Chat
+          </button>
+          <button
+            id="closeSidebarBtn"
+            class="bg-gray-100 p-2 rounded-full text-gray-700 hover:bg-gray-200 transition duration-150 ease-in-out"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex-1 p-4 overflow-y-auto">
+          <h2 class="text-xl font-bold mb-4 text-dark-green">
+            Historial de Conversaciones
+          </h2>
+          <ul id="conversationList" class="space-y-2">
+            <li
+              class="p-2 rounded-lg text-gray-700 hover:bg-primary-green cursor-pointer truncate"
+            ></li>
+            <li
+              class="p-2 rounded-lg bg-primary-green font-semibold text-dark-green cursor-pointer truncate"
+            ></li>
+          </ul>
+        </div>
+
+        <div class="p-4 border-t border-gray-100">
+          <button
+            id="logoutBtn"
+            class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-150 ease-in-out shadow"
+          >
+            Cerrar sesion
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="chatContainer"
+        class="flex flex-col flex-1 ml-0 transition-all duration-300"
+      >
+        <div
+          class="p-4 border-b border-gray-200 bg-white shadow-md flex justify-between items-center"
+        >
+          <label for="iaSelect" class="block text-lg font-bold text-dark-green"
+            >Selecciona el Modelo:</label
+          >
+          <select
+            id="iaSelect"
+            class="border border-accent-green rounded-lg px-3 py-1 bg-primary-green text-dark-green font-medium focus:ring-2 focus:ring-accent-green focus:border-accent-green appearance-none"
+            style="
+              background-color: #d1fae5 !important;
+              color: #059669 !important;
+            "
+          ></select>
+        </div>
+
+        <div
+          id="chat"
+          class="flex-1 overflow-y-auto p-6 space-y-4 bg-primary-green"
+        ></div>
+
+        <form
+          id="form"
+          class="flex p-4 border-t border-gray-200 bg-white shadow-inner"
+        >
+          <input
+            id="input"
+            type="text"
+            placeholder="Escribe un mensaje..."
+            class="flex-1 border border-gray-300 rounded-l-lg px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-dark-green focus:border-dark-green transition duration-150"
+          />
+          <button
+            type="submit"
+            class="bg-dark-green text-white px-6 py-3 rounded-r-lg hover:bg-accent-green transition duration-150 ease-in-out font-semibold shadow-md"
+          >
+            Enviar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Side bar No Tocar -->
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const openBtn = document.getElementById("openSidebarBtn");
+      const closeBtn = document.getElementById("closeSidebarBtn");
+      const chatContainer = document.getElementById("chatContainer");
+
+      openBtn.addEventListener("click", () => {
+        sidebar.classList.remove("-translate-x-64");
+        openBtn.classList.add("hidden");
+        chatContainer.classList.add("ml-64");
+      });
+
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-64");
+        openBtn.classList.remove("hidden");
+        chatContainer.classList.remove("ml-64");
+      });
+    </script>
+
+    <!-- Scritp No tocar -->
+    <script src="js/chat-ia-mensajes.js"></script>
+    <script src="js/charge-message.js"></script>
+    <script src="js/get-conversacion.js"></script>
+    <script src="js/get-ia.js"></script>
+    <script src="js/new-chat.js"></script>
+    <script>
+      // Iniciado como null para crear conversaciones nuevas No Tocar
+      let conversacionId = null;
+    </script>
+  </body>
+</html>

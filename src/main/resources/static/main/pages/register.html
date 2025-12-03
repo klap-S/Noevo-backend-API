@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noevo - Registro</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "primary-accent": "#10B981",
+              "primary-bg": "#F0FDF4",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gray-100 font-sans antialiased flex items-center justify-center min-h-screen p-4"
+  >
+    <div
+      id="register-container"
+      class="w-full max-w-lg bg-white rounded-xl shadow-2xl p-8 space-y-6"
+    >
+      <div class="text-center">
+        <span class="text-6xl text-primary-accent">📝</span>
+        <h1 class="text-3xl font-bold text-gray-900 mt-2">Crea tu Cuenta</h1>
+      </div>
+
+      <form
+        id="register-form"
+        class="space-y-4"
+        onsubmit="handleRegister(event)"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              for="register-name"
+              class="block text-sm font-medium text-gray-700"
+              >Nombre</label
+            >
+            <input
+              type="text"
+              id="register-name"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent"
+            />
+          </div>
+          <div>
+            <label
+              for="register-lastname"
+              class="block text-sm font-medium text-gray-700"
+              >Apellido</label
+            >
+            <input
+              type="text"
+              id="register-lastname"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            for="register-username"
+            class="block text-sm font-medium text-gray-700"
+            >Nombre de Usuario</label
+          >
+          <input
+            type="text"
+            id="register-username"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent"
+          />
+        </div>
+
+        <div>
+          <label
+            for="register-email"
+            class="block text-sm font-medium text-gray-700"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="register-email"
+            required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label
+              for="register-password"
+              class="block text-sm font-medium text-gray-700"
+              >Contraseña</label
+            >
+            <input
+              type="password"
+              id="register-password"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent"
+            />
+            <p class="text-xs text-gray-500 mt-1">Minimo 6 caracteres.</p>
+          </div>
+          <div>
+            <label
+              for="register-language"
+              class="block text-sm font-medium text-gray-700"
+              >Idioma Preferido</label
+            >
+            <select
+              id="register-language"
+              required
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary-accent focus:border-primary-accent appearance-none bg-white"
+            >
+              <option value="ESPAÑOL">Español</option>
+              <option value="INGLES">Ingles</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          id="register-btn"
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary-accent hover:bg-emerald-600 transition"
+        >
+          Registrarse
+        </button>
+      </form>
+
+      <div class="text-center text-sm pt-2 border-t border-gray-100">
+        <a href="../../index.html" class="text-gray-500 hover:underline">
+          ¿Ya tienes una cuenta? Inicia sesion aqui
+        </a>
+      </div>
+
+      <div
+        id="register-status"
+        class="text-center text-sm font-medium mt-4 h-5"
+      ></div>
+    </div>
+
+    <script src="../js/create-user.js"></script>
+  </body>
+</html>

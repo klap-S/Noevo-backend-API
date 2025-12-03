@@ -1,15 +1,72 @@
 package noevo.service.interfaces;
 
+//Java imports
 import java.util.List;
 import java.util.Optional;
-import noevo.model.IA;
+
+//Noevo imports
+import noevo.model.entity.IA;
+import noevo.model.dto.ia.IARequestDTO;
+import noevo.model.dto.ia.IAResponseDTO;
+import noevo.enums.OpcionesIdiomas;
 
 public interface IAService {
 
-    //Basico
+    // Basico
     List<IA> findAll();
+
     Optional<IA> findById(Long id);
-    IA save (IA ia);
+
+    IA saved(IA ia);
+
     void deleteById(Long id);
-    
+
+    /*
+     * ====================================
+     * Personalizado
+     * ====================================
+     */
+    // Buscar IA por el nombre
+    Optional<IA> findByName(String name);
+
+    // Buscar rol de la IA
+    Optional<IA> findByRol(String rol);
+
+    // Buscar idioma de la IA
+    Optional<IA> findByLanguage(OpcionesIdiomas language);
+
+    // Verificar si existe el nombre
+    boolean existsByName(String name);
+
+    /*
+     * ====================================
+     * DTOs
+     * ====================================
+     */
+    // Devuelve DTO Response de todos las IA
+    List<IAResponseDTO> findAllResponse();
+
+    // Devuelve DTO Response de una IA por id
+    Optional<IAResponseDTO> findByIdResponse(Long id);
+
+    // Devuelve DTO Response del nombre IA
+    IAResponseDTO findByNameResponse(String name);
+
+    // Devuelve DTO Response del rol IA
+    IAResponseDTO findByRolResponse(String rol);
+
+    // Devuelve DTO Response del idioma de la IA
+    IAResponseDTO findByLanguageResponse(OpcionesIdiomas language);
+
+    /*
+     * ====================================
+     * Desarrollo logica
+     * ====================================
+     */
+    // Crear IA
+    IAResponseDTO createIA(IARequestDTO iaRequestDTO);
+
+    // Editar IA
+    IAResponseDTO updateIA(Long id, IARequestDTO iaRequestDTO);
+
 }
