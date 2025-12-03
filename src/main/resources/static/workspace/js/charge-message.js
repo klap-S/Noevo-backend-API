@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Al hacer click, se cargan los mensajes de esa conversación
         try {
           const mensajesResp = await fetch(
-            `http://localhost:8080/backend/api/mensaje/showMessage/usuario/${conv.usuarioId}/ia/${conv.iaId}/conversacion/${conv.id}`,
+            `http://localhost:8080/backend/api/mensaje/showMessage/ia/${conv.iaId}/conversacion/${conv.id}`,
             {
               method: 'GET',
               credentials: 'include',
