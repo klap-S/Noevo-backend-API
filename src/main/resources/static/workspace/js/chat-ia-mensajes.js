@@ -43,10 +43,15 @@ form.addEventListener('submit', async (e) => {
 // Función para agregar mensajes al chat
 function appendMessage(sender, text) {
   const div = document.createElement('div')
-  div.className = sender === 'Usuario' ? 'text-right' : 'text-left'
-  div.innerHTML = `<span class="inline-block px-3 py-2 rounded-lg bg-${
-    sender === 'Usuario' ? 'blue-500' : 'gray-300'
-  } text-${sender === 'Usuario' ? 'white' : 'black'}">${text}</span>`
+
+  // Mensaje ocupa todo el ancho y se ve como bloque
+  div.className = `p-2 rounded mb-2 ${
+    sender === 'Usuario'
+      ? 'bg-green-500 text-white text-right' // Usuario: verde
+      : 'bg-sky-300 text-black text-left' // IA: azul celeste
+  }`
+
+  div.textContent = text
   chat.appendChild(div)
   chat.scrollTop = chat.scrollHeight
 }
