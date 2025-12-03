@@ -5,6 +5,7 @@ import java.util.List;
 
 //Jakarta imports
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
 
 //Org imports
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,13 @@ public class ConversacionController {
         @GetMapping
         public List<ConversacionResponseDTO> getAll() {
                 return conversacionServiceImpl.findAllResponse();
+        }
+
+        //// Mostrar todas las conversaciones ordenadas por el ultimo acceso
+        @GetMapping("/ordenada")
+        public List<ConversacionResponseDTO> getConversaciones(HttpServletRequest servletRequest) {
+                Long usuarioId = (Long) servletRequest.getAttribute("usuarioId");
+                return conversacionServiceImpl.showConversationDescResponse(usuarioId);
         }
 
         // Obtener conversacion Id

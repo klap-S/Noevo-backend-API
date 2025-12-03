@@ -45,6 +45,10 @@ public interface ConversacionService {
         // Devuelve DTO response conversacion por id
         Optional<ConversacionResponseDTO> findByIdResponse(Long id);
 
+        // Mostrar todas las conversaciones ordenadas por el ultimo acceso ascendente en
+        // DTO Response
+        List<ConversacionResponseDTO> showConversationDescResponse(Long usuarioId);
+
         /*
          * ====================================
          * Desarrollo logica

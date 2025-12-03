@@ -18,6 +18,7 @@ import noevo.repository.ConversacionRepository;
 import noevo.service.interfaces.ConversacionService;
 import noevo.model.dto.conversacion.ConversacionRequestDTO;
 import noevo.model.dto.conversacion.ConversacionResponseDTO;
+import noevo.model.dto.ia.IAResponseDTO;
 
 @Service
 public class ConversacionServiceImpl implements ConversacionService {
@@ -115,6 +116,21 @@ public class ConversacionServiceImpl implements ConversacionService {
                         .usuarioId(con.getUsuario().getId())
                         .lastAccess(con.getLastAccess())
                         .build());
+    }
+
+    // Mostrar todas las conversaciones ordenadas por el ultimo acceso ascendente en
+    // DTO Response
+    @Override
+    public List<ConversacionResponseDTO> showConversationDescResponse(Long usuarioId) {
+        List<Conversacion> conversacion = showConversationDesc(usuarioId);
+
+        return conversacion.stream()
+                .map(con -> ConversacionResponseDTO.builder()
+                        .id(con.getId())
+                        .title(con.getTitle())
+                        .iaId(con.getIa().getId())
+                        .build())
+                .toList();
     }
 
     /*

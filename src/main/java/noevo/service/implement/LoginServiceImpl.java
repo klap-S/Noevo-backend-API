@@ -4,6 +4,10 @@ package noevo.service.implement;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+//Jakarta imports
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 //Orgs imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +27,8 @@ public class LoginServiceImpl implements LoginService {
     // Personalizados
     // Logueo de usuarios
     @Override
-    public UsuarioLoginResponseDTO loginUser(UsuarioLoginRequestDTO usuarioLoginRequestDTO) {
+    public UsuarioLoginResponseDTO loginUser(UsuarioLoginRequestDTO usuarioLoginRequestDTO,
+            HttpServletRequest servletRequest) {
         Usuario usuario = usuarioServiceImpl.findByEmail(usuarioLoginRequestDTO.getEmail())
                 .orElseThrow(() -> new RuntimeException("Correo no encontrado"));
 
@@ -32,16 +37,15 @@ public class LoginServiceImpl implements LoginService {
         }
 
         usuario.setLastAccess(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-
         Usuario saved = usuarioServiceImpl.saved(usuario);
+
+        HttpSession session = servletRequest.getSession(true);
+        session.setAttribute("usuarioId", saved.getId());
+        session.setAttribute("rol", saved.getRol());
+
         return UsuarioLoginResponseDTO.builder()
-                .id(saved.getId())
                 .userName(saved.getUserName())
-                .email(saved.getEmail())
-                .language(saved.getLanguage())
                 .rol(saved.getRol())
-                .lastAccess(saved.getLastAccess())
-                .registrationDate(saved.getRegistrationDate())
                 .build();
     }
 

@@ -14,20 +14,20 @@ import noevo.model.dto.usuario.PasswordUpdateDTO;
 import noevo.service.implement.PasswordServiceImpl;
 
 @RestController
-@RequestMapping("/backend/api")
+@RequestMapping("/backend/api/password")
 public class PasswordController {
 
         @Autowired
         private PasswordServiceImpl passwordServiceImpl;
 
         // Actualizar contraseña de usuario
-        @PutMapping("/updatePassword/{id}")
+        @PutMapping("/update/{id}")
         public void updatePassword(@PathVariable Long id, @RequestBody PasswordUpdateDTO updateDTO) {
                 passwordServiceImpl.updatePassword(id, updateDTO);
         }
 
         // Resetear contraseña por si se olvida
-        @PutMapping("/resetPassword/{id}")
+        @PutMapping("/reset/{id}")
         public void resetPassword(@PathVariable Long id, @RequestBody PasswordResetDTO passwordResetDTO) {
                 passwordServiceImpl.resetPassword(id, passwordResetDTO);
         }

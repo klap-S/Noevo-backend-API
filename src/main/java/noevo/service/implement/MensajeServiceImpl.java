@@ -101,12 +101,7 @@ public class MensajeServiceImpl implements MensajeService {
                                 .map(msg -> MensajeResponseDTO.builder()
                                                 .id(msg.getId())
                                                 .order(msg.getOrder())
-                                                .speaker(msg.getSpeaker())
-                                                .sender(msg.getSender())
                                                 .contentText(msg.getContentText())
-                                                .type(msg.getType())
-                                                .audioUrl(msg.getAudioUrl())
-                                                .shippingDate(msg.getShippingDate())
                                                 .conversacionId(conversacion.getId())
                                                 .build())
                                 .toList();

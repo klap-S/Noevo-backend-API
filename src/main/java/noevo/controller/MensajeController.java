@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//Jakarta imports
+import jakarta.servlet.http.HttpServletRequest;
 //Noevo imports
 import noevo.service.implement.MensajeServiceImpl;
 import noevo.model.dto.mensaje.MensajeRequestDTO;
@@ -26,11 +28,12 @@ public class MensajeController {
     private MensajeServiceImpl mensajeServiceImpl;
 
     // Mostrar mensaje
-    @GetMapping("/showMessage/usuario/{usuarioId}/ia/{iaId}/conversacion/{conversacionId}")
+    @GetMapping("/showMessage/ia/{iaId}/conversacion/{conversacionId}")
     public List<MensajeResponseDTO> showMessages(
-            @PathVariable Long usuarioId,
             @PathVariable Long iaId,
-            @PathVariable Long conversacionId) {
+            @PathVariable Long conversacionId,
+            HttpServletRequest servletRequest) {
+        Long usuarioId = (Long) servletRequest.getAttribute("usuarioId");
 
         return mensajeServiceImpl.showMessageConversation(conversacionId, usuarioId, iaId);
     }

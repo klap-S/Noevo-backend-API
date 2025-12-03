@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat IA con Sidebar Toggle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 h-screen w-screen overflow-hidden">
+    <div class="flex h-full w-full">
+      <!-- BOTÓN para abrir sidebar cuando está oculto -->
+      <button
+        id="openSidebarBtn"
+        class="fixed top-4 left-4 z-50 bg-gray-200 p-2 rounded"
+      >
+        ☰
+      </button>
+
+      <!-- SIDEBAR IZQUIERDO -->
+      <div
+        id="sidebar"
+        class="fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-300 shadow-lg flex flex-col transform -translate-x-64 transition-transform duration-300 z-40"
+      >
+        <!-- Botón para cerrar sidebar dentro del sidebar -->
+        <div class="p-4 border-b border-gray-300 flex justify-end">
+          <button id="closeSidebarBtn" class="bg-gray-200 p-2 rounded">
+            ✕
+          </button>
+        </div>
+
+        <!-- Usuario y rol -->
+        <div class="p-4 border-b border-gray-300">
+          <div id="userNameIndicator" class="font-semibold mb-2 hidden"></div>
+          <div id="roleIndicator" class="font-semibold hidden"></div>
+        </div>
+
+        <!-- Contenido del sidebar -->
+        <div class="flex-1 p-4 overflow-y-auto">
+          <h2 class="text-lg font-semibold mb-4">Tus Conversaciones</h2>
+          <ul id="conversationList" class="space-y-2">
+            <!-- Conversaciones se llenarán aquí -->
+          </ul>
+        </div>
+
+        <!-- Botón Cerrar sesión abajo -->
+        <div class="p-4 border-t border-gray-300">
+          <button
+            id="logoutBtn"
+            class="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+
+      <!-- CHAT PRINCIPAL -->
+      <div
+        id="chatContainer"
+        class="flex flex-col flex-1 ml-0 transition-all duration-300"
+      >
+        <!-- Header con selector de IA -->
+        <div
+          class="p-4 border-b border-gray-300 bg-white flex justify-between items-center"
+        >
+          <label for="iaSelect" class="block font-semibold"
+            >Selecciona IA:</label
+          >
+          <select
+            id="iaSelect"
+            class="border border-gray-300 rounded px-2 py-1 bg-white text-black"
+            style="background-color: white !important; color: black !important"
+          ></select>
+        </div>
+
+        <!-- Área de mensajes -->
+        <div id="chat" class="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50">
+          <!-- Mensajes -->
+        </div>
+
+        <!-- Input -->
+        <form id="form" class="flex p-4 border-t border-gray-300 bg-white">
+          <input
+            id="input"
+            type="text"
+            placeholder="Escribe un mensaje..."
+            class="flex-1 border border-gray-300 rounded-l px-3 py-2 focus:outline-none"
+          />
+          <button
+            type="submit"
+            class="bg-blue-500 text-white px-4 rounded-r hover:bg-blue-600"
+          >
+            Enviar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+      // Sidebar toggle
+      const sidebar = document.getElementById("sidebar");
+      const openBtn = document.getElementById("openSidebarBtn");
+      const closeBtn = document.getElementById("closeSidebarBtn");
+      const chatContainer = document.getElementById("chatContainer");
+
+      openBtn.addEventListener("click", () => {
+        sidebar.classList.remove("-translate-x-64");
+        openBtn.classList.add("hidden");
+        chatContainer.classList.add("ml-64");
+      });
+
+      closeBtn.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-64");
+        openBtn.classList.remove("hidden");
+        chatContainer.classList.remove("ml-64");
+      });
+    </script>
+
+    <!-- Tu JS del chat -->
+    <script src="js/chat-ia-mensajes.js"></script>
+    <script>
+      // Declaración de conversacionId para tu JS
+      let conversacionId = null;
+    </script>
+  </body>
+</html>

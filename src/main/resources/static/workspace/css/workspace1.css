@@ -1,0 +1,66 @@
+/* Estilos para el layout principal */
+#app-layout {
+  /* Ocupa toda la altura visible del viewport */
+  height: 100vh;
+}
+
+/* Estilo para asegurar que el área de chat se desplace */
+#chat-messages {
+  overflow-y: auto;
+  /* Altura ajustada: 100% - altura del input - padding vertical */
+  max-height: calc(100vh - 12rem);
+}
+
+/* Ocultar la barra de desplazamiento (Scrollbar) en navegadores WebKit */
+#chat-messages::-webkit-scrollbar {
+  display: none;
+}
+#chat-messages {
+  -ms-overflow-style: none; /* IE y Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Estilo para la transición y posición inicial del Sidebar (Oculto en móvil) */
+.sidebar {
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
+  position: absolute; /* Usamos absolute para mobile */
+  z-index: 40;
+}
+
+/* Clase para mostrar el Sidebar */
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* En pantallas medianas (md: 768px), el sidebar siempre está visible */
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0) !important;
+    position: relative; /* Usamos relative en desktop */
+  }
+  /* El área de chat toma el ancho restante */
+  .chat-area {
+    width: calc(100% - 320px);
+  }
+}
+
+/* Clase para prevenir que el mensaje del usuario se oculte al editar */
+.message-content-user {
+  /* Aquí se utiliza el color de acento definido en Tailwind */
+  background-color: var(--tw-bg-primary-accent);
+}
+
+/* Estilo para el área de texto editable (para mantener la altura) */
+.editing-textarea {
+  min-height: 48px; /* Altura mínima para que sea visible */
+}
+
+/* Animación y estado inicial del Modal */
+#ia-modal {
+  /* Necesario para la animación CSS de entrada */
+  pointer-events: none; /* Desactivar clics si está oculto (hidden) */
+}
+#ia-modal.flex {
+  pointer-events: auto; /* Reactivar clics si está visible (flex) */
+}

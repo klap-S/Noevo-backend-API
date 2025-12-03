@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//Jakarta imports
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 //Noevo imports
 import noevo.model.dto.usuario.UsuarioCreateRequestDTO;
 import noevo.model.dto.usuario.UsuarioCreateResponseDTO;
@@ -48,10 +52,18 @@ public class UsuarioController {
                 return usuarioServiceImpl.createUser(createDTO);
         }
 
-        // Crear usario invitado
+        // Crear usuario invitado
         @PostMapping("/create/invitado")
-        public UsuarioResponseDTO createInvitado() {
-                return usuarioServiceImpl.createUserInvitado();
+        public UsuarioResponseDTO createInvitado(HttpServletRequest request) {
+
+                UsuarioResponseDTO usuarioResponseDTO = usuarioServiceImpl.createUserInvitado();
+
+                // LOGIN : guardar usuarioId y rol en la sesión
+                HttpSession session = request.getSession(true);
+                session.setAttribute("usuarioId", usuarioResponseDTO.getId());
+                session.setAttribute("rol", usuarioResponseDTO.getRol());
+
+                return usuarioResponseDTO;
         }
 
         // Actualizar usuario
